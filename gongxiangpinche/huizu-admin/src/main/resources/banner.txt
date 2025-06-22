@@ -1,0 +1,2 @@
+Application Version: ${huizu.version}
+Spring Boot Version: ${spring-boot.version}

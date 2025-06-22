@@ -1,0 +1,20 @@
+{
+    // launch.json は、デバッグ開始時の設定を構成します。configurationsセクション内のノード名は app-plus/h5/mp-weixin/mp-baidu/mp-alipay/mp-qq/mp-toutiao/mp-360/ とすることができます。
+    // launchtype 項目は local または remote に設定できます。local はフロントエンドがローカルクラウド関数に接続することを意味し、remote はフロントエンドがクラウドのクラウド関数に接続することを意味します。
+    "version" : "0.0",
+    "configurations" : [
+        {
+            "default" : {
+                "launchtype" : "local"
+            },
+            "mp-weixin" : {
+                "launchtype" : "local"
+            },
+            "type" : "uniCloud"
+        },
+        {
+            "playground" : "standard",
+            "type" : "uni-app:app-android"
+        }
+    ]
+}

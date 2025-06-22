@@ -1,0 +1,200 @@
+package ${packageName}.controller;
+
+import com.alibaba.fastjson2.JSONObject;
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.huizu.common.annotation.Log;
+import com.huizu.common.core.controller.BaseController;
+import com.huizu.common.core.domain.AjaxResult;
+import com.huizu.common.enums.BusinessType;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.huizu.common.utils.poi.ExcelUtil;
+#if($table.crud || $table.sub)
+import com.huizu.common.core.page.TableDataInfo;
+#elseif($table.tree)
+#end
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/${moduleName}")
+public class ${ClassName}Controller extends BaseController
+{
+    @Autowired
+    private I${ClassName}Service ${className}Service;
+
+    /**
+     * 查询${functionName}列表
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
+    @GetMapping("/${businessName}/list")
+#if($table.crud || $table.sub)
+    public TableDataInfo list(${ClassName} ${className})
+    {
+        startPage();
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return getDataTable(list);
+    }
+#elseif($table.tree)
+    public AjaxResult list(${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return success(list);
+    }
+#end
+    /**
+     * 查询${functionName}列表(不分页)
+     */
+    @GetMapping("/${businessName}/noPage/list")
+    public AjaxResult noPageList(${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return AjaxResult.success(list);
+    }
+    /**
+     * 导出${functionName}列表
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:export')")
+    @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
+    @PostMapping("/${businessName}/export")
+    public void export(HttpServletResponse response, ${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
+        util.exportExcel(response, list, "${functionName}数据");
+    }
+
+    /**
+     * 获取${functionName}详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:query')")
+    @GetMapping(value = "/${businessName}/{${pkColumn.javaField}}")
+    public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+    }
+
+    /**
+     * 新增${functionName}
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:add')")
+    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
+    @PostMapping("/${businessName}")
+    public AjaxResult add(@RequestBody ${ClassName} ${className})
+    {
+        return toAjax(${className}Service.insert${ClassName}(${className}));
+    }
+
+    /**
+     * 修改${functionName}
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:edit')")
+    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
+    @PutMapping("/${businessName}")
+    public AjaxResult edit(@RequestBody ${ClassName} ${className})
+    {
+        return toAjax(${className}Service.update${ClassName}(${className}));
+    }
+
+    /**
+     * 删除${functionName}
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:remove')")
+    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
+	@DeleteMapping("/${businessName}/{${pkColumn.javaField}s}")
+    public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
+    {
+        return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+    }
+
+
+    // TODO **********************************api接口********************************************************************
+
+    // TODO 列表********************************************************************************
+
+    /**
+     * 查询${functionName}列表
+     */
+    @PostMapping("/get${ClassName}List")
+    public AjaxResult get${ClassName}List(@RequestBody(required = false) JSONObject jsonObject)
+    {
+        return ${className}Service.get${ClassName}List(jsonObject);
+    }
+
+    // TODO 详情*****************************************************************************
+
+    /**
+     * 查询${functionName}详情
+     */
+    @PostMapping("/get${ClassName}")
+    public AjaxResult get${ClassName}(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.get${ClassName}(jsonObject);
+    }
+
+    // TODO 新增*****************************************************************************
+
+    /**
+     * 新增${functionName}
+     */
+    @PostMapping("/add${ClassName}")
+    public AjaxResult add${ClassName}(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.add${ClassName}(jsonObject);
+    }
+
+    // TODO 修改*****************************************************************************
+
+    /**
+     * 修改${functionName}
+     */
+    @PostMapping("/edit${ClassName}")
+    public AjaxResult edit${ClassName}(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.edit${ClassName}(jsonObject);
+    }
+
+    /**
+     * 批量修改${functionName}
+     */
+    @PostMapping("/batchEdit${ClassName}")
+    public AjaxResult batchEdit${ClassName}(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.batchEdit${ClassName}(jsonObject);
+    }
+
+    // TODO 删除*****************************************************************************
+
+    /**
+     * 删除${functionName}
+     */
+    @PostMapping("/remove${ClassName}")
+    public AjaxResult remove${ClassName}(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.remove${ClassName}(jsonObject);
+    }
+
+    /**
+     * 批量删除${functionName}
+     */
+    @PostMapping("/remove${ClassName}s")
+    public AjaxResult remove${ClassName}s(@RequestBody JSONObject jsonObject)
+    {
+        return ${className}Service.remove${ClassName}s(jsonObject);
+    }
+}

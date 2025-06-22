@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.system.mapper.SysServiceMapper">
+
+    <resultMap type="SysService" id="SysServiceResult">
+        <result property="id"    column="id"    />
+        <result property="phone"    column="phone"    />
+        <result property="image"    column="image"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+
+    <sql id="selectSysServiceVo">
+        select a.id, a.phone, a.image, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag
+        from sys_service a
+    </sql>
+
+    <select id="selectSysServiceList" parameterType="SysService" resultMap="SysServiceResult">
+        <include refid="selectSysServiceVo"/>
+        <where>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="image != null  and image != ''"> and a.image = #{image}</if>
+            and a.del_flag != '1'
+        </where>
+
+    </select>
+
+    <select id="selectSysServiceById" parameterType="Long" resultMap="SysServiceResult">
+        <include refid="selectSysServiceVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertSysService" parameterType="SysService" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phone != null">phone,</if>
+            <if test="image != null">image,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phone != null">#{phone},</if>
+            <if test="image != null">#{image},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysService" parameterType="SysService">
+        update sys_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysServiceById" parameterType="Long">
+        update sys_service set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteSysServiceByIds" parameterType="String">
+        update sys_service set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getSysServiceVo">
+        select
+            a.id as id,
+            a.phone as phone,
+            a.image as image,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag
+        from sys_service a
+    </sql>
+
+    <select id="getSysServiceList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.phone as phone,
+            a.image as image,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag
+        from sys_service a
+        <where>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="image != null  and image != ''"> and a.image = #{image}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getSysService" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getSysServiceVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="addSysService" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phone != null">phone,</if>
+            <if test="image != null">image,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phone != null">#{phone},</if>
+            <if test="image != null">#{image},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="editSysService" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_service
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="phone != null">phone = #{phone},</if>
+             <if test="image != null">image = #{image},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysServices" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_service set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSysService" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_service set del_flag = '1' where id = #{id}
+    </delete>
+</mapper>

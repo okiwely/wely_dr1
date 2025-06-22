@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.ProOrderInfoMapper">
+
+    <resultMap type="ProOrderInfo" id="ProOrderInfoResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customerName"    />
+        <result property="driverId"    column="driver_id"    />
+        <result property="driverName"    column="driverName"    />
+        <result property="routeId"    column="route_id"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="totalNum"    column="total_num"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="discountPrice"    column="discount_price"    />
+        <result property="actualPrice"    column="actual_price"    />
+        <result property="bondPrice"    column="bond_price"    />
+        <result property="couponId"    column="coupon_id"    />
+        <result property="integral"    column="integral"    />
+        <result property="freight"    column="freight"    />
+        <result property="packageId"    column="package_id"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="sendCnt"    column="send_cnt"    />
+        <result property="people"    column="people"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+        <result property="payType"    column="pay_type"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="pushPeople"    column="push_people"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="takeType"    column="take_type"    />
+        <result property="storehouse"    column="storehouse"    />
+        <result property="startAddress"    column="start_address"    />
+        <result property="endAddress"    column="end_address"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+
+    <sql id="selectProOrderInfoVo">
+        select a.id, a.customer_id, b.name customerName, a.driver_id,c.name driverName, a.route_id, a.order_type, a.order_code, a.total_num, a.total_price, a.discount_price, a.actual_price, a.bond_price, a.coupon_id, a.integral, a.freight, a.package_id, a.send_time, a.send_cnt, a.people, a.phone, a.address, a.pay_type, a.pay_time, a.push_people, a.order_status, a.take_type, a.storehouse, a.start_address, a.end_address, a.start_time, a.end_time, a.create_time, a.del_flag
+        from pro_order_info a
+                 left join pro_customer b on a.customer_id = b.id
+                 left join pro_customer c on a.driver_id = c.id
+    </sql>
+
+    <select id="selectProOrderInfoList" parameterType="ProOrderInfo" resultMap="ProOrderInfoResult">
+        <include refid="selectProOrderInfoVo"/>
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="driverId != null "> and a.driver_id = #{driverId}</if>
+            <if test="routeId != null "> and a.route_id = #{routeId}</if>
+            <if test="orderType != null  and orderType != ''"> and a.order_type = #{orderType}</if>
+            <if test="orderCode != null  and orderCode != ''"> and a.order_code = #{orderCode}</if>
+            <if test="totalNum != null "> and a.total_num = #{totalNum}</if>
+            <if test="totalPrice != null "> and a.total_price = #{totalPrice}</if>
+            <if test="discountPrice != null "> and a.discount_price = #{discountPrice}</if>
+            <if test="actualPrice != null "> and a.actual_price = #{actualPrice}</if>
+            <if test="bondPrice != null "> and a.bond_price = #{bondPrice}</if>
+            <if test="couponId != null "> and a.coupon_id = #{couponId}</if>
+            <if test="integral != null "> and a.integral = #{integral}</if>
+            <if test="freight != null "> and a.freight = #{freight}</if>
+            <if test="packageId != null "> and a.package_id = #{packageId}</if>
+            <if test="sendTime != null "> and a.send_time = #{sendTime}</if>
+            <if test="sendCnt != null "> and a.send_cnt = #{sendCnt}</if>
+            <if test="people != null  and people != ''"> and a.people = #{people}</if>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="address != null  and address != ''"> and a.address = #{address}</if>
+            <if test="payType != null  and payType != ''"> and a.pay_type = #{payType}</if>
+            <if test="payTime != null "> and a.pay_time = #{payTime}</if>
+            <if test="pushPeople != null "> and a.push_people = #{pushPeople}</if>
+            <if test="orderStatus != null  and orderStatus != ''"> and a.order_status = #{orderStatus}</if>
+            <if test="takeType != null  and takeType != ''"> and a.take_type = #{takeType}</if>
+            <if test="storehouse != null  and storehouse != ''"> and a.storehouse = #{storehouse}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address = #{endAddress}</if>
+            <if test="startTime != null "> and date_format(a.start_time,'%y%m%d') = date_format(#{startTime},'%y%m%d')</if>
+            <if test="endTime != null "> and date_format(a.end_time,'%y%m%d') = date_format(#{endTime},'%y%m%d')</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectProOrderInfoById" parameterType="Integer" resultMap="ProOrderInfoResult">
+        <include refid="selectProOrderInfoVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="selectProOrderInfoByCode" parameterType="String" resultMap="ProOrderInfoResult">
+        <include refid="selectProOrderInfoVo"/>
+        where a.order_code = #{orderCode}
+    </select>
+
+    <insert id="insertProOrderInfo" parameterType="ProOrderInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="driverId != null">driver_id,</if>
+            <if test="routeId != null">route_id,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="orderCode != null">order_code,</if>
+            <if test="totalNum != null">total_num,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="discountPrice != null">discount_price,</if>
+            <if test="actualPrice != null">actual_price,</if>
+            <if test="bondPrice != null">bond_price,</if>
+            <if test="couponId != null">coupon_id,</if>
+            <if test="integral != null">integral,</if>
+            <if test="freight != null">freight,</if>
+            <if test="packageId != null">package_id,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="sendCnt != null">send_cnt,</if>
+            <if test="people != null">people,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="pushPeople != null">push_people,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="takeType != null">take_type,</if>
+            <if test="storehouse != null">storehouse,</if>
+            <if test="startAddress != null">start_address,</if>
+            <if test="endAddress != null">end_address,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="driverId != null">#{driverId},</if>
+            <if test="routeId != null">#{routeId},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="orderCode != null">#{orderCode},</if>
+            <if test="totalNum != null">#{totalNum},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="discountPrice != null">#{discountPrice},</if>
+            <if test="actualPrice != null">#{actualPrice},</if>
+            <if test="bondPrice != null">#{bondPrice},</if>
+            <if test="couponId != null">#{couponId},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="freight != null">#{freight},</if>
+            <if test="packageId != null">#{packageId},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="sendCnt != null">#{sendCnt},</if>
+            <if test="people != null">#{people},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="address != null">#{address},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="pushPeople != null">#{pushPeople},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="takeType != null">#{takeType},</if>
+            <if test="storehouse != null">#{storehouse},</if>
+            <if test="startAddress != null">#{startAddress},</if>
+            <if test="endAddress != null">#{endAddress},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProOrderInfo" parameterType="ProOrderInfo">
+        update pro_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="driverId != null">driver_id = #{driverId},</if>
+            <if test="routeId != null">route_id = #{routeId},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="orderCode != null">order_code = #{orderCode},</if>
+            <if test="totalNum != null">total_num = #{totalNum},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="discountPrice != null">discount_price = #{discountPrice},</if>
+            <if test="actualPrice != null">actual_price = #{actualPrice},</if>
+            <if test="bondPrice != null">bond_price = #{bondPrice},</if>
+            <if test="couponId != null">coupon_id = #{couponId},</if>
+            <if test="integral != null">integral = #{integral},</if>
+            <if test="freight != null">freight = #{freight},</if>
+            <if test="packageId != null">package_id = #{packageId},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="sendCnt != null">send_cnt = #{sendCnt},</if>
+            <if test="people != null">people = #{people},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="pushPeople != null">push_people = #{pushPeople},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="takeType != null">take_type = #{takeType},</if>
+            <if test="storehouse != null">storehouse = #{storehouse},</if>
+            <if test="startAddress != null">start_address = #{startAddress},</if>
+            <if test="endAddress != null">end_address = #{endAddress},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updateProOrderInfoByCode" parameterType="ProOrderInfo">
+        update pro_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="driverId != null">driver_id = #{driverId},</if>
+            <if test="routeId != null">route_id = #{routeId},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="orderCode != null">order_code = #{orderCode},</if>
+            <if test="totalNum != null">total_num = #{totalNum},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="discountPrice != null">discount_price = #{discountPrice},</if>
+            <if test="actualPrice != null">actual_price = #{actualPrice},</if>
+            <if test="bondPrice != null">bond_price = #{bondPrice},</if>
+            <if test="couponId != null">coupon_id = #{couponId},</if>
+            <if test="integral != null">integral = #{integral},</if>
+            <if test="freight != null">freight = #{freight},</if>
+            <if test="packageId != null">package_id = #{packageId},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="sendCnt != null">send_cnt = #{sendCnt},</if>
+            <if test="people != null">people = #{people},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="pushPeople != null">push_people = #{pushPeople},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="takeType != null">take_type = #{takeType},</if>
+            <if test="storehouse != null">storehouse = #{storehouse},</if>
+            <if test="startAddress != null">start_address = #{startAddress},</if>
+            <if test="endAddress != null">end_address = #{endAddress},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where order_code = #{orderCode}
+    </update>
+
+    <delete id="deleteProOrderInfoById" parameterType="Integer">
+        update pro_order_info set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteProOrderInfoByIds" parameterType="String">
+        update pro_order_info set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getProOrderInfoVo">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.driver_id as driverId,
+            a.route_id as routeId,
+            a.order_type as orderType,
+            a.order_code as orderCode,
+            a.total_num as totalNum,
+            a.total_price as totalPrice,
+            a.discount_price as discountPrice,
+            a.actual_price as actualPrice,
+            a.bond_price as bondPrice,
+            a.coupon_id as couponId,
+            a.integral as integral,
+            a.freight as freight,
+            a.package_id as packageId,
+            a.send_time as sendTime,
+            a.send_cnt as sendCnt,
+            a.people as people,
+            a.phone as phone,
+            a.address as address,
+            a.pay_type as payType,
+            a.pay_time as payTime,
+            a.push_people as pushPeople,
+            a.order_status as orderStatus,
+            a.take_type as takeType,
+            a.storehouse as storehouse,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_time as startTime,
+            a.end_time as endTime,
+            a.create_time as createTime,
+            a.del_flag as delFlag
+        from pro_order_info a
+    </sql>
+
+    <select id="getProOrderInfoList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.driver_id as driverId,
+            a.route_id as routeId,
+            a.order_type as orderType,
+            a.order_code as orderCode,
+            a.total_num as totalNum,
+            a.total_price as totalPrice,
+            a.discount_price as discountPrice,
+            a.actual_price as actualPrice,
+            a.bond_price as bondPrice,
+            a.coupon_id as couponId,
+            a.integral as integral,
+            a.freight as freight,
+            a.package_id as packageId,
+            a.send_time as sendTime,
+            a.send_cnt as sendCnt,
+            a.people as people,
+            a.phone as phone,
+            a.address as address,
+            a.pay_type as payType,
+            a.pay_time as payTime,
+            a.push_people as pushPeople,
+            a.order_status as orderStatus,
+            a.take_type as takeType,
+            a.storehouse as storehouse,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_time as startTime,
+            a.end_time as endTime,
+            a.create_time as createTime,
+            a.del_flag as delFlag
+        from pro_order_info a
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="driverId != null "> and a.driver_id = #{driverId}</if>
+            <if test="routeId != null "> and a.route_id = #{routeId}</if>
+            <if test="orderType != null  and orderType != ''"> and a.order_type = #{orderType}</if>
+            <if test="orderCode != null  and orderCode != ''"> and a.order_code = #{orderCode}</if>
+            <if test="totalNum != null "> and a.total_num = #{totalNum}</if>
+            <if test="totalPrice != null "> and a.total_price = #{totalPrice}</if>
+            <if test="discountPrice != null "> and a.discount_price = #{discountPrice}</if>
+            <if test="actualPrice != null "> and a.actual_price = #{actualPrice}</if>
+            <if test="bondPrice != null "> and a.bond_price = #{bondPrice}</if>
+            <if test="couponId != null "> and a.coupon_id = #{couponId}</if>
+            <if test="integral != null "> and a.integral = #{integral}</if>
+            <if test="freight != null "> and a.freight = #{freight}</if>
+            <if test="packageId != null "> and a.package_id = #{packageId}</if>
+            <if test="sendTime != null "> and a.send_time = #{sendTime}</if>
+            <if test="sendCnt != null "> and a.send_cnt = #{sendCnt}</if>
+            <if test="people != null  and people != ''"> and a.people = #{people}</if>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="address != null  and address != ''"> and a.address = #{address}</if>
+            <if test="payType != null  and payType != ''"> and a.pay_type = #{payType}</if>
+            <if test="payTime != null "> and a.pay_time = #{payTime}</if>
+            <if test="pushPeople != null "> and a.push_people = #{pushPeople}</if>
+            <if test="orderStatus != null  and orderStatus != ''"> and a.order_status = #{orderStatus}</if>
+            <if test="takeType != null  and takeType != ''"> and a.take_type = #{takeType}</if>
+            <if test="storehouse != null  and storehouse != ''"> and a.storehouse = #{storehouse}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address = #{endAddress}</if>
+            <if test="startTime != null "> and a.start_time = #{startTime}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getProOrderInfo" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getProOrderInfoVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="addProOrderInfo" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="driverId != null">driver_id,</if>
+            <if test="routeId != null">route_id,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="orderCode != null">order_code,</if>
+            <if test="totalNum != null">total_num,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="discountPrice != null">discount_price,</if>
+            <if test="actualPrice != null">actual_price,</if>
+            <if test="bondPrice != null">bond_price,</if>
+            <if test="couponId != null">coupon_id,</if>
+            <if test="integral != null">integral,</if>
+            <if test="freight != null">freight,</if>
+            <if test="packageId != null">package_id,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="sendCnt != null">send_cnt,</if>
+            <if test="people != null">people,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="pushPeople != null">push_people,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="takeType != null">take_type,</if>
+            <if test="storehouse != null">storehouse,</if>
+            <if test="startAddress != null">start_address,</if>
+            <if test="endAddress != null">end_address,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="driverId != null">#{driverId},</if>
+            <if test="routeId != null">#{routeId},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="orderCode != null">#{orderCode},</if>
+            <if test="totalNum != null">#{totalNum},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="discountPrice != null">#{discountPrice},</if>
+            <if test="actualPrice != null">#{actualPrice},</if>
+            <if test="bondPrice != null">#{bondPrice},</if>
+            <if test="couponId != null">#{couponId},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="freight != null">#{freight},</if>
+            <if test="packageId != null">#{packageId},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="sendCnt != null">#{sendCnt},</if>
+            <if test="people != null">#{people},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="address != null">#{address},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="pushPeople != null">#{pushPeople},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="takeType != null">#{takeType},</if>
+            <if test="storehouse != null">#{storehouse},</if>
+            <if test="startAddress != null">#{startAddress},</if>
+            <if test="endAddress != null">#{endAddress},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="editProOrderInfo" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="customerId != null">customer_id = #{customerId},</if>
+             <if test="driverId != null">driver_id = #{driverId},</if>
+             <if test="routeId != null">route_id = #{routeId},</if>
+             <if test="orderType != null">order_type = #{orderType},</if>
+             <if test="orderCode != null">order_code = #{orderCode},</if>
+             <if test="totalNum != null">total_num = #{totalNum},</if>
+             <if test="totalPrice != null">total_price = #{totalPrice},</if>
+             <if test="discountPrice != null">discount_price = #{discountPrice},</if>
+             <if test="actualPrice != null">actual_price = #{actualPrice},</if>
+             <if test="bondPrice != null">bond_price = #{bondPrice},</if>
+             <if test="couponId != null">coupon_id = #{couponId},</if>
+             <if test="integral != null">integral = #{integral},</if>
+             <if test="freight != null">freight = #{freight},</if>
+             <if test="packageId != null">package_id = #{packageId},</if>
+             <if test="sendTime != null">send_time = #{sendTime},</if>
+             <if test="sendCnt != null">send_cnt = #{sendCnt},</if>
+             <if test="people != null">people = #{people},</if>
+             <if test="phone != null">phone = #{phone},</if>
+             <if test="address != null">address = #{address},</if>
+             <if test="payType != null">pay_type = #{payType},</if>
+             <if test="payTime != null">pay_time = #{payTime},</if>
+             <if test="pushPeople != null">push_people = #{pushPeople},</if>
+             <if test="orderStatus != null">order_status = #{orderStatus},</if>
+             <if test="takeType != null">take_type = #{takeType},</if>
+             <if test="storehouse != null">storehouse = #{storehouse},</if>
+             <if test="startAddress != null">start_address = #{startAddress},</if>
+             <if test="endAddress != null">end_address = #{endAddress},</if>
+             <if test="startTime != null">start_time = #{startTime},</if>
+             <if test="endTime != null">end_time = #{endTime},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="editOrderPriceByRouteId" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualPrice != null">actual_price = #{actualPrice},</if>
+        </trim>
+        where route_id = #{routeId}
+    </update>
+
+    <delete id="removeProOrderInfos" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeProOrderInfo" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveProOrderInfo" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from pro_order_info
+        <where>
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="driverId != null "> and driver_id = #{driverId}</if>
+            <if test="routeId != null "> and route_id = #{routeId}</if>
+            <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
+            <if test="orderCode != null  and orderCode != ''"> and order_code = #{orderCode}</if>
+            <if test="totalNum != null "> and total_num = #{totalNum}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="discountPrice != null "> and discount_price = #{discountPrice}</if>
+            <if test="actualPrice != null "> and actual_price = #{actualPrice}</if>
+            <if test="bondPrice != null "> and bond_price = #{bondPrice}</if>
+            <if test="couponId != null "> and coupon_id = #{couponId}</if>
+            <if test="integral != null "> and integral = #{integral}</if>
+            <if test="freight != null "> and freight = #{freight}</if>
+            <if test="packageId != null "> and package_id = #{packageId}</if>
+            <if test="sendTime != null "> and send_time = #{sendTime}</if>
+            <if test="sendCnt != null "> and send_cnt = #{sendCnt}</if>
+            <if test="people != null  and people != ''"> and people = #{people}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="payType != null  and payType != ''"> and pay_type = #{payType}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="pushPeople != null "> and push_people = #{pushPeople}</if>
+            <if test="orderStatus != null  and orderStatus != ''"> and order_status = #{orderStatus}</if>
+            <if test="takeType != null  and takeType != ''"> and take_type = #{takeType}</if>
+            <if test="storehouse != null  and storehouse != ''"> and storehouse = #{storehouse}</if>
+            <if test="startAddress != null  and startAddress != ''"> and start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and end_address = #{endAddress}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+        </where>
+    </delete>
+</mapper>

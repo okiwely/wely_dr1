@@ -1,0 +1,126 @@
+package ${packageName}.service;
+
+import java.util.List;
+import com.alibaba.fastjson2.JSONObject;
+import com.huizu.common.core.domain.AjaxResult;
+import ${packageName}.domain.${ClassName};
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${ClassName}Service
+{
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return ${functionName}
+     */
+    ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    int insert${ClassName}(${ClassName} ${className});
+
+    /**
+     * 修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    int update${ClassName}(${ClassName} ${className});
+
+    /**
+     * 批量删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s 需要删除的${functionName}主键集合
+     * @return 结果
+     */
+    int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
+
+    /**
+     * 删除${functionName}信息
+     *
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return 结果
+     */
+    int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+
+    // TODO api接口******************************************************************************************************
+
+    // TODO 列表*****************************************************************************
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @return ${functionName}集合
+     */
+    AjaxResult get${ClassName}List(JSONObject jsonObject);
+
+    // TODO 详情*****************************************************************************
+
+    /**
+     * 查询${functionName}
+     *
+     * @return ${functionName}
+     */
+    AjaxResult get${ClassName}(JSONObject jsonObject);
+
+    // TODO 新增*****************************************************************************
+
+    /**
+     * 新增${functionName}
+     *
+     * @return 结果
+     */
+    AjaxResult add${ClassName}(JSONObject jsonObject);
+
+    // TODO 修改*****************************************************************************
+
+    /**
+     * 修改${functionName}
+     *
+     * @return 结果
+     */
+    AjaxResult edit${ClassName}(JSONObject jsonObject);
+
+    /**
+     * 批量修改${functionName}
+     *
+     * @return 结果
+     */
+    AjaxResult batchEdit${ClassName}(JSONObject jsonObject);
+
+    // TODO 删除*****************************************************************************
+
+    /**
+     * 删除${functionName}信息
+     *
+     * @return 结果
+     */
+    AjaxResult remove${ClassName}(JSONObject jsonObject);
+
+    /**
+     * 批量删除${functionName}
+     *
+     * @return 结果
+     */
+    AjaxResult remove${ClassName}s(JSONObject jsonObject);
+
+}

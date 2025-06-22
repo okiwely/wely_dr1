@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.TbCustomerAppraiseMapper">
+
+    <resultMap type="TbCustomerAppraise" id="TbCustomerAppraiseResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customerName"    />
+        <result property="subId"    column="sub_id"    />
+        <result property="subName"    column="subName"    />
+        <result property="level"    column="level"    />
+        <result property="content"    column="content"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="standby1"    column="standby1"    />
+        <result property="standby2"    column="standby2"    />
+        <result property="standby3"    column="standby3"    />
+    </resultMap>
+
+
+    <sql id="selectTbCustomerAppraiseVo">
+        select a.id, a.customer_id, b.name customerName, a.sub_id, c.name subName, a.level, a.content, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag, a.standby1, a.standby2, a.standby3
+        from tb_customer_appraise a
+        left join pro_customer b on a.customer_id = b.id
+        left join pro_customer c on a.sub_id = c.id
+    </sql>
+
+    <select id="selectTbCustomerAppraiseList" parameterType="TbCustomerAppraise" resultMap="TbCustomerAppraiseResult">
+        <include refid="selectTbCustomerAppraiseVo"/>
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="subId != null "> and a.sub_id = #{subId}</if>
+            <if test="level != null  and level != ''"> and a.level = #{level}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectTbCustomerAppraiseById" parameterType="Long" resultMap="TbCustomerAppraiseResult">
+        <include refid="selectTbCustomerAppraiseVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="selectScopeBySubId" parameterType="Long" resultType="double">
+        select ifnull(sum(level)/count(0),0) scope
+        from tb_customer_appraise
+        where sub_id = #{subId}
+    </select>
+
+    <insert id="insertTbCustomerAppraise" parameterType="TbCustomerAppraise" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_appraise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="subId != null">sub_id,</if>
+            <if test="level != null">level,</if>
+            <if test="content != null">content,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="subId != null">#{subId},</if>
+            <if test="level != null">#{level},</if>
+            <if test="content != null">#{content},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbCustomerAppraise" parameterType="TbCustomerAppraise">
+        update tb_customer_appraise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="subId != null">sub_id = #{subId},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="standby1 != null">standby1 = #{standby1},</if>
+            <if test="standby2 != null">standby2 = #{standby2},</if>
+            <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbCustomerAppraiseById" parameterType="Long">
+        update tb_customer_appraise set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteTbCustomerAppraiseByIds" parameterType="String">
+        update tb_customer_appraise set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getTbCustomerAppraiseVo">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.sub_id as subId,
+            a.level as level,
+            a.content as content,
+            a.status as status,
+            a.create_by as createBy,
+            date_format(a.create_time, '%Y-%m-%d %H:%i:%s') as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3
+        from tb_customer_appraise a
+    </sql>
+
+    <select id="getTbCustomerAppraiseList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            if(b.avatar is null, 'https://huizu-oss-demo.oss-cn-beijing.aliyuncs.com/avatar.png', avatar) as avatar,
+            if(b.`name` is null, '默认用户', `name`) name,
+            a.level as level,
+            a.content as content,
+            a.create_time as createTime
+        from tb_customer_appraise a
+        left join pro_customer b on a.customer_id = b.id
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="subId != null "> and a.sub_id = #{subId}</if>
+            <if test="level != null  and level != ''"> and a.level = #{level}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getTbCustomerAppraise" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbCustomerAppraiseVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="getTbCustomerAppraiseD" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select count(id) `count`,`level`
+        from tb_customer_appraise
+        where sub_id = #{customerId}
+        group by `level`
+    </select>
+
+    <insert id="addTbCustomerAppraise" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_appraise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="subId != null">sub_id,</if>
+            <if test="level != null">level,</if>
+            <if test="content != null">content,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="subId != null">#{subId},</if>
+            <if test="level != null">#{level},</if>
+            <if test="content != null">#{content},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+        </trim>
+    </insert>
+
+    <update id="editTbCustomerAppraise" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_appraise
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="customerId != null">customer_id = #{customerId},</if>
+             <if test="subId != null">sub_id = #{subId},</if>
+             <if test="level != null">level = #{level},</if>
+             <if test="content != null">content = #{content},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+             <if test="standby1 != null">standby1 = #{standby1},</if>
+             <if test="standby2 != null">standby2 = #{standby2},</if>
+             <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="removeTbCustomerAppraises" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_appraise set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeTbCustomerAppraise" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_appraise set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveTbCustomerAppraise" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from tb_customer_appraise
+        <where>
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="subId != null "> and sub_id = #{subId}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+        </where>
+    </delete>
+</mapper>

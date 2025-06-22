@@ -1,0 +1,404 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+import com.alibaba.fastjson2.JSONObject;
+import com.huizu.common.annotation.ResponseParam;
+import com.huizu.common.annotation.VerifyParam;
+import com.huizu.common.utils.DictUtils;
+import com.huizu.common.core.domain.AjaxResult;
+    #foreach ($column in $columns)
+    #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+import com.huizu.common.annotation.VerifyParam;
+import com.huizu.common.utils.DateUtils;
+#break
+#end
+#end
+#foreach ($column in $columns)
+#if($column.javaField == 'userId' || $column.javaField == 'deptId')
+import com.huizu.common.utils.SecurityUtils;
+#break
+#end
+#end
+import com.huizu.common.annotation.DataScope;
+import com.huizu.common.utils.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+#if($table.sub)
+import java.util.ArrayList;
+import com.huizu.common.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.domain.${subClassName};
+#end
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements I${ClassName}Service
+{
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return ${functionName}
+     */
+    @Override
+    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+    }
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}
+     */
+    @Override
+    @DataScope(userAlias = "a",deptAlias = "a")
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
+    {
+        return ${className}Mapper.select${ClassName}List(${className});
+    }
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int insert${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'status')
+        //设置启用状态
+        ${className}.setStatus("1");
+#end
+#if($column.javaField == 'delFlag')
+        //设置删除标记
+        ${className}.setDelFlag("0");
+#end
+    #if($column.javaField == 'createTime')
+        //设置创建时间
+        ${className}.setCreateTime(DateUtils.getNowDate());
+#end
+#if($column.javaField == 'createBy')
+        //设置创建人
+        ${className}.setCreateBy(SecurityUtils.getUsername());
+#end
+#if($column.javaField == 'userId')
+        //设置用户id，用于数据权限控制
+        ${className}.setUserId(SecurityUtils.getUserId());
+#end
+#if($column.javaField == 'deptId')
+        //设置部门id，用于数据权限控制
+        ${className}.setDeptId(SecurityUtils.getDeptId());
+#end
+#end
+#if($table.sub)
+        int rows = ${className}Mapper.insert${ClassName}(${className});
+        insert${subClassName}(${className});
+        return rows;
+#else
+        return ${className}Mapper.insert${ClassName}(${className});
+#end
+    }
+
+    /**
+     * 修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int update${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'updateTime')
+        //设置修改时间
+        ${className}.setUpdateTime(DateUtils.getNowDate());
+#end
+#if($column.javaField == 'updateBy')
+        //设置修改人
+        ${className}.setUpdateBy(SecurityUtils.getUsername());
+#end
+#end
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
+        insert${subClassName}(${className});
+#end
+        return ${className}Mapper.update${ClassName}(${className});
+    }
+
+    /**
+     * 批量删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s 需要删除的${functionName}主键
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s)
+    {
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaField}s);
+#end
+        return ${className}Mapper.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s);
+    }
+
+    /**
+     * 删除${functionName}信息
+     *
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
+#end
+        return ${className}Mapper.delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+    }
+#if($table.sub)
+
+    /**
+     * 新增${subTable.functionName}信息
+     *
+     * @param ${className} ${functionName}对象
+     */
+    public void insert${subClassName}(${ClassName} ${className})
+    {
+        List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
+        ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
+        if (StringUtils.isNotNull(${subclassName}List))
+        {
+            List<${subClassName}> list = new ArrayList<${subClassName}>();
+            for (${subClassName} ${subclassName} : ${subclassName}List)
+            {
+                ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
+                list.add(${subclassName});
+            }
+            if (list.size() > 0)
+            {
+                ${className}Mapper.batch${subClassName}(list);
+            }
+        }
+    }
+#end
+
+
+    // TODO ********************************api接口**********************************************************************
+
+    // TODO 列表*****************************************************************************
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @return ${functionName}
+     */
+    @Override
+    @VerifyParam("customerId")
+    public AjaxResult get${ClassName}List(JSONObject jsonObject)
+    {
+        List<JSONObject> jsonObjectList = ${className}Mapper.get${ClassName}List(jsonObject);
+        for (JSONObject json : jsonObjectList){
+#foreach ($column in $columns)
+#if($column.dictType != "")
+            json.put("$column.javaField",DictUtils.getDictLabel("$column.dictType",json.getString("$column.javaField")));
+#end
+#end
+        }
+        return AjaxResult.success(jsonObjectList);
+    }
+
+    // TODO 详情*****************************************************************************
+
+    /**
+     * 查询${functionName}
+     *
+     * @return ${functionName}
+     */
+    @Override
+    @VerifyParam("id")
+    @ResponseParam("#foreach($column in $columns)$column.javaField#if($foreach.count != $columns.size()),#end#end")
+    public AjaxResult get${ClassName}(JSONObject jsonObject)
+    {
+        JSONObject object = ${className}Mapper.get${ClassName}(jsonObject);
+        return AjaxResult.success(object);
+    }
+
+
+    // TODO 新增*****************************************************************************
+
+    /**
+     * 新增${functionName}
+     *
+     * @return 结果
+     */
+    @Override
+    @VerifyParam("#foreach($column in $columns)$column.javaField#if($foreach.count != $columns.size()),#end#end")
+    public AjaxResult add${ClassName}(JSONObject jsonObject)
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime')
+        //设置创建时间
+        jsonObject.put("createTime",DateUtils.getNowDate());
+#end
+#if($column.javaField == 'status')
+        //设置启用状态
+        jsonObject.put("status","1");
+#end
+#if($column.javaField == 'delFlag')
+        //设置删除标记
+        jsonObject.put("delFlag","0");
+#end
+#if($column.javaField == 'userId')
+        //设置用户id，用于数据权限控制
+        jsonObject.put("userId",SecurityUtils.getUserId());
+#end
+#if($column.javaField == 'deptId')
+        //设置部门id，用于数据权限控制
+        jsonObject.put("deptId",SecurityUtils.getDeptId());
+#end
+#end
+        int i = ${className}Mapper.add${ClassName}(jsonObject);
+        return i > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+
+    // TODO 修改*****************************************************************************
+
+    /**
+     * 修改${functionName}
+     *
+     * @return 结果
+     */
+    @Override
+    @VerifyParam("#foreach($column in $columns)$column.javaField#if($foreach.count != $columns.size()),#end#end")
+    public AjaxResult edit${ClassName}(JSONObject jsonObject)
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'updateTime')
+        //设置修改时间
+        jsonObject.put("updateTime",DateUtils.getNowDate());
+#end
+#end
+        int i = ${className}Mapper.edit${ClassName}(jsonObject);
+        return i > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+
+    /**
+     * 批量修改${functionName}
+     *
+     * @return 结果
+     */
+    @Override
+    @VerifyParam("customerId")
+    public AjaxResult batchEdit${ClassName}(JSONObject jsonObject)
+    {
+        //批量删除
+        this.batchRemove${ClassName}(jsonObject);
+        //批量添加
+        this.batchAdd${ClassName}(jsonObject);
+        return AjaxResult.success();
+    }
+
+    // TODO 删除*****************************************************************************
+
+    /**
+     * 删除${functionName}信息
+     *
+     * @return 结果
+     */
+    @Override
+    @VerifyParam("id")
+    public AjaxResult remove${ClassName}(JSONObject jsonObject)
+    {
+        int i = ${className}Mapper.remove${ClassName}(jsonObject);
+        return i > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+
+    /**
+     * 批量删除${functionName}
+     *
+     * @return 结果
+     */
+    @Override
+    @VerifyParam("ids")
+    public AjaxResult remove${ClassName}s(JSONObject jsonObject)
+    {
+        int i = ${className}Mapper.remove${ClassName}s(jsonObject);
+        return i > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+
+    // TODO 其他*****************************************************************************
+
+    /**
+       * 批量删除
+       *
+       * @return 结果
+       */
+    public int batchRemove${ClassName}(JSONObject jsonObject) {
+        return ${className}Mapper.batchRemove${ClassName}(jsonObject);
+    }
+
+    /**
+     * 批量添加
+     *
+     * @return 结果
+     */
+    public void batchAdd${ClassName}(JSONObject jsonObject) {
+
+        Long id = jsonObject.getLong("customerId");
+        List<JSONObject> list = jsonObject.getList("list", JSONObject.class);
+
+        for(JSONObject obj : list) {
+            obj.put("customerId",id);
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime')
+            //设置创建时间
+            obj.put("createTime",DateUtils.getNowDate());
+#end
+#if($column.javaField == 'status')
+            //设置启用状态
+            obj.put("status","1");
+#end
+#if($column.javaField == 'delFlag')
+            //设置删除标记
+            obj.put("delFlag","0");
+#end
+#if($column.javaField == 'userId')
+            //设置用户id，用于数据权限控制
+            obj.put("userId",SecurityUtils.getUserId());
+#end
+#if($column.javaField == 'deptId')
+            //设置部门id，用于数据权限控制
+            obj.put("deptId",SecurityUtils.getDeptId());
+#end
+#end
+            int i = ${className}Mapper.add${ClassName}(obj);
+        }
+    }
+
+}

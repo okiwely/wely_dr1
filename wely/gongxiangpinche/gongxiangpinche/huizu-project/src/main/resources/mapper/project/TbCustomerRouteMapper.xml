@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.TbCustomerRouteMapper">
+
+    <resultMap type="TbCustomerRoute" id="TbCustomerRouteResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customerName"    />
+        <result property="type"    column="type"    />
+        <result property="describe"    column="describe"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="startAddress"    column="start_address"    />
+        <result property="endAddress"    column="end_address"    />
+        <result property="startLonLat"    column="start_lon_lat"    />
+        <result property="endLonLat"    column="end_lon_lat"    />
+        <result property="model"    column="model"    />
+        <result property="number"    column="number"    />
+        <result property="price"    column="price"    />
+        <result property="total"    column="total"    />
+        <result property="alreadyTotal"    column="already_total"    />
+        <result property="attention"    column="attention"    />
+        <result property="comment"    column="comment"    />
+        <result property="viewTotal"    column="view_total"    />
+        <result property="state"    column="state"    />
+        <result property="week"    column="week"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="standby1"    column="standby1"    />
+        <result property="standby2"    column="standby2"    />
+        <result property="standby3"    column="standby3"    />
+    </resultMap>
+
+    <sql id="selectTbCustomerRouteVo">
+        select a.id, a.customer_id, b.name customerName, a.type, a.describe, a.start_time, a.end_time, a.start_address, a.end_address, a.start_lon_lat, a.end_lon_lat, a.model, a.number, a.price, a.total, a.already_total, a.attention, a.comment, a.view_total, a.state, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag, a.standby1, a.standby2, a.standby3
+        from tb_customer_route a
+        left join pro_customer b on a.customer_id = b.id
+    </sql>
+
+    <select id="selectTbCustomerRouteList" parameterType="TbCustomerRoute" resultMap="TbCustomerRouteResult">
+        <include refid="selectTbCustomerRouteVo"/>
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="describe != null  and describe != ''"> and a.`describe` = #{describe}</if>
+            <if test="startTime != null ">  and date_format(a.start_time,'%y%m%d') = date_format(#{startTime},'%y%m%d')</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address = #{endAddress}</if>
+            <if test="startLonLat != null  and startLonLat != ''"> and a.start_lon_lat = #{startLonLat}</if>
+            <if test="endLonLat != null  and endLonLat != ''"> and a.end_lon_lat = #{endLonLat}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="total != null "> and a.total = #{total}</if>
+            <if test="alreadyTotal != null "> and a.already_total = #{alreadyTotal}</if>
+            <if test="viewTotal != null "> and a.view_total = #{viewTotal}</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+    <select id="selectTbCustomerRouteList1" parameterType="TbCustomerRoute" resultMap="TbCustomerRouteResult">
+        <include refid="selectTbCustomerRouteVo"/>
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            <if test="week != null  and week != ''"> and a.describe like concat('%', #{week}, '%')</if>
+            <if test="createTime != null"> and a.create_time > #{createTime}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectTbCustomerRouteById" parameterType="Long" resultMap="TbCustomerRouteResult">
+        <include refid="selectTbCustomerRouteVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertTbCustomerRoute" parameterType="TbCustomerRoute" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="type != null">type,</if>
+            <if test="describe != null">`describe`,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="startAddress != null">start_address,</if>
+            <if test="endAddress != null">end_address,</if>
+            <if test="startLonLat != null">start_lon_lat,</if>
+            <if test="endLonLat != null">end_lon_lat,</if>
+            <if test="model != null">model,</if>
+            <if test="number != null">number,</if>
+            <if test="price != null">price,</if>
+            <if test="total != null">total,</if>
+            <if test="alreadyTotal != null">already_total,</if>
+            <if test="attention != null">attention,</if>
+            <if test="comment != null">comment,</if>
+            <if test="viewTotal != null">view_total,</if>
+            <if test="state != null">state,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="describe != null">#{describe},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="startAddress != null">#{startAddress},</if>
+            <if test="endAddress != null">#{endAddress},</if>
+            <if test="startLonLat != null">#{startLonLat},</if>
+            <if test="endLonLat != null">#{endLonLat},</if>
+            <if test="model != null">#{model},</if>
+            <if test="number != null">#{number},</if>
+            <if test="price != null">#{price},</if>
+            <if test="total != null">#{total},</if>
+            <if test="alreadyTotal != null">#{alreadyTotal},</if>
+            <if test="attention != null">#{attention},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="viewTotal != null">#{viewTotal},</if>
+            <if test="state != null">#{state},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbCustomerRoute" parameterType="TbCustomerRoute">
+        update tb_customer_route
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="describe != null">`describe` = #{describe},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="startAddress != null">start_address = #{startAddress},</if>
+            <if test="endAddress != null">end_address = #{endAddress},</if>
+            <if test="startLonLat != null">start_lon_lat = #{startLonLat},</if>
+            <if test="endLonLat != null">end_lon_lat = #{endLonLat},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="alreadyTotal != null">already_total = #{alreadyTotal},</if>
+            <if test="attention != null">attention = #{attention},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="viewTotal != null">view_total = #{viewTotal},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="standby1 != null">standby1 = #{standby1},</if>
+            <if test="standby2 != null">standby2 = #{standby2},</if>
+            <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updateTbCustomerRouteSub" parameterType="TbCustomerRoute">
+        update tb_customer_route a
+        LEFT JOIN pro_order_info b on a.standby1 = b.order_code
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="alreadyTotal != null">a.already_total = #{alreadyTotal},</if>
+        </trim>
+        where b.route_id = #{id}
+    </update>
+
+    <delete id="deleteTbCustomerRouteById" parameterType="Long">
+        update tb_customer_route set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteTbCustomerRouteByIds" parameterType="String">
+        update tb_customer_route set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getTbCustomerRouteVo">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.type as type,
+            a.describe as `describe`,
+            date_format(a.start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(a.end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_lon_lat as startLonLat,
+            a.end_lon_lat as endLonLat,
+            a.model as model,
+            a.number as number,
+            a.price as price,
+            a.total as total,
+            a.already_total as alreadyTotal,
+            a.attention as attention,
+            a.comment as comment,
+            a.view_total as viewTotal,
+            a.state as state,
+            a.status as status,
+            a.create_by as createBy,
+            date_format(a.create_time, '%Y-%m-%d %H:%i:%s') as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3,
+            b.id as customerId,
+            b.avatar,
+            b.name,
+            b.content,
+            b.is_auth as isAuth
+        from tb_customer_route a
+        left join pro_customer b on a.customer_id = b.id
+    </sql>
+
+    <select id="getTbCustomerRouteList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            date_format(a.start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_lon_lat as startLonLat,
+            a.end_lon_lat as endLonLat,
+            ifnull(a.model,'') model,
+            a.price as price,
+            ifnull(a.price,0)/ifnull(a.total,1) minPrice,
+            ifnull(a.price,0) maxPrice,
+            ifnull(a.total,'') total,
+            ifnull(a.already_total,'') alreadyTotal,
+            b.id as customerId,
+            b.avatar,
+            b.name,
+            b.score,
+            b.is_auth isAuth,
+            if(b.phone is null or b.phone = '', 0, 1) isPhone,
+            (select count(*) from tb_customer_appraise where sub_id = b.id) reviewTotal,
+            ifnull(b.content,'') content
+        from tb_customer_route a
+        left join pro_customer b on a.customer_id = b.id
+        left join tb_customer_car c on b.id = c.customer_id
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="startTime != null and startTime != '' "> and date_format(a.start_time, '%Y-%m-%d') = date_format(#{startTime}, '%Y-%m-%d')</if>
+            <if test="beginStartTime != null and beginStartTime != '' and endStartTime != null and endStartTime != ''"> and a.start_time between #{beginStartTime} and #{endStartTime}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address like concat('%', #{startAddress}, '%')</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address like concat('%', #{endAddress}, '%')</if>
+            <if test="describe != null  and describe != ''"> and a.describe = #{describe}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="startLonLat != null  and startLonLat != ''"> and a.start_lon_lat = #{startLonLat}</if>
+            <if test="endLonLat != null  and endLonLat != ''"> and a.end_lon_lat = #{endLonLat}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="total != null "> and a.total = #{total}</if>
+            <if test="alreadyTotal != null "> and a.already_total = #{alreadyTotal}</if>
+            <if test="viewTotal != null "> and a.view_total = #{viewTotal}</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            and a.del_flag != '1'
+            and NOW() &lt; a.start_time
+        </where>
+        <if test="sort == 1"> order by a.start_time</if>
+        <if test="sort == 2"> order by a.start_time desc</if>
+        <if test="sort == 3"> order by a.price</if>
+        <if test="sort == null or sort == ''"> order by a.create_time desc</if>
+    </select>
+    <select id="getTbCustomerRouteListNow" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            date_format(a.start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(a.end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_lon_lat as startLonLat,
+            a.end_lon_lat as endLonLat,
+            ifnull(a.model,'') model,
+            a.price as price,
+            ifnull(a.price,0)/ifnull(a.total,1) minPrice,
+            ifnull(a.price,0) maxPrice,
+            a.total as total,
+            a.already_total as alreadyTotal,
+            b.avatar,
+            b.name,
+            b.score,
+            ifnull(b.content,'') content,
+            b.id costomerId,
+            c.driver_id subId,
+            c.order_code orderCode,
+            c.actual_price actualPrice,
+            if(c.order_status is null,0,c.order_status) orderStatus
+        from tb_customer_route a
+        left join pro_customer b on a.customer_id = b.id
+        left join pro_order_info c on a.standby1 = c.order_code
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="describe != null  and describe != ''"> and a.describe = #{describe}</if>
+            <if test="startTime != null "> and a.start_time = #{startTime}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address = #{endAddress}</if>
+            <if test="startLonLat != null  and startLonLat != ''"> and a.start_lon_lat = #{startLonLat}</if>
+            <if test="endLonLat != null  and endLonLat != ''"> and a.end_lon_lat = #{endLonLat}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="total != null "> and a.total = #{total}</if>
+            <if test="alreadyTotal != null "> and a.already_total = #{alreadyTotal}</if>
+            <if test="viewTotal != null "> and a.view_total = #{viewTotal}</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            and a.del_flag != '1'
+            and (NOW() &lt; a.start_time or c.order_status = 1)
+        </where>
+        order by a.create_time desc
+    </select>
+    <select id="getTbCustomerRouteListOld" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            date_format(a.start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(a.end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            a.start_address as startAddress,
+            a.end_address as endAddress,
+            a.start_lon_lat as startLonLat,
+            a.end_lon_lat as endLonLat,
+            ifnull(a.model,'') model,
+            a.price as price,
+            ifnull(a.price,0)/ifnull(a.total,1) minPrice,
+            ifnull(a.price,0) maxPrice,
+            a.total as total,
+            a.already_total as alreadyTotal,
+            b.avatar,
+            b.name,
+            b.score,
+            ifnull(b.content,'') content,
+            b.id costomerId,
+            c.driver_id subId,
+            c.order_code orderCode,
+            c.actual_price actualPrice,
+            if(c.order_status is null,0,c.order_status) orderStatus
+        from tb_customer_route a
+        left join pro_customer b on a.customer_id = b.id
+        left join pro_order_info c on a.standby1 = c.order_code
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="describe != null  and describe != ''"> and a.describe = #{describe}</if>
+            <if test="startTime != null "> and a.start_time = #{startTime}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="startAddress != null  and startAddress != ''"> and a.start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and a.end_address = #{endAddress}</if>
+            <if test="startLonLat != null  and startLonLat != ''"> and a.start_lon_lat = #{startLonLat}</if>
+            <if test="endLonLat != null  and endLonLat != ''"> and a.end_lon_lat = #{endLonLat}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="total != null "> and a.total = #{total}</if>
+            <if test="alreadyTotal != null "> and a.already_total = #{alreadyTotal}</if>
+            <if test="viewTotal != null "> and a.view_total = #{viewTotal}</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            and a.del_flag != '1'
+            and (now() > a.start_time or c.order_status = 3)
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getTbCustomerRoute" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbCustomerRouteVo"/>
+        where a.id = #{routeId}
+    </select>
+    <select id="getLastRoute" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbCustomerRouteVo"/>
+        where a.customer_id = #{customerId} and a.type = #{type}
+        order by a.create_time desc
+        limit 1
+    </select>
+
+    <insert id="addTbCustomerRoute" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="type != null">`type`,</if>
+            <if test="week != null">`describe`,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="startAddress != null">start_address,</if>
+            <if test="endAddress != null">end_address,</if>
+            <if test="startLonLat != null">start_lon_lat,</if>
+            <if test="endLonLat != null">end_lon_lat,</if>
+            <if test="model != null">model,</if>
+            <if test="number != null">`number`,</if>
+            <if test="price != null">price,</if>
+            <if test="total != null">total,</if>
+            <if test="alreadyTotal != null">already_total,</if>
+            <if test="attention != null">attention,</if>
+            <if test="comment != null">comment,</if>
+            <if test="viewTotal != null">view_total,</if>
+            <if test="state != null">state,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="week != null">#{week},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="startAddress != null">#{startAddress},</if>
+            <if test="endAddress != null">#{endAddress},</if>
+            <if test="startLonLat != null">#{startLonLat},</if>
+            <if test="endLonLat != null">#{endLonLat},</if>
+            <if test="model != null">#{model},</if>
+            <if test="number != null">#{number},</if>
+            <if test="price != null">#{price},</if>
+            <if test="total != null">#{total},</if>
+            <if test="alreadyTotal != null">#{alreadyTotal},</if>
+            <if test="attention != null">#{attention},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="viewTotal != null">#{viewTotal},</if>
+            <if test="state != null">#{state},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+        </trim>
+    </insert>
+
+    <update id="editTbCustomerRoute" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_route
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="customerId != null">customer_id = #{customerId},</if>
+             <if test="type != null">`type` = #{type},</if>
+             <if test="describe != null">`describe` = #{describe},</if>
+             <if test="startTime != null">start_time = #{startTime},</if>
+             <if test="endTime != null">end_time = #{endTime},</if>
+             <if test="startAddress != null">start_address = #{startAddress},</if>
+             <if test="endAddress != null">end_address = #{endAddress},</if>
+             <if test="startLonLat != null">start_lon_lat = #{startLonLat},</if>
+             <if test="endLonLat != null">end_lon_lat = #{endLonLat},</if>
+             <if test="model != null">model = #{model},</if>
+             <if test="number != null">`number` = #{number},</if>
+             <if test="price != null">price = #{price},</if>
+             <if test="total != null">total = #{total},</if>
+             <if test="alreadyTotal != null">already_total = #{alreadyTotal},</if>
+             <if test="attention != null">attention = #{attention},</if>
+             <if test="comment != null">comment = #{comment},</if>
+             <if test="viewTotal != null">view_total = #{viewTotal},</if>
+             <if test="state != null">state = #{state},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+             <if test="standby1 != null">standby1 = #{standby1},</if>
+             <if test="standby2 != null">standby2 = #{standby2},</if>
+             <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{routeId}
+    </update>
+
+    <delete id="removeTbCustomerRoutes" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_route set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeTbCustomerRoute" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_route set del_flag = '1' where id = #{routeId}
+    </delete>
+
+    <delete id="batchRemoveTbCustomerRoute" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from tb_customer_route
+        <where>
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="type != null  and type != ''"> and `type` = #{type}</if>
+            <if test="describe != null  and describe != ''"> and `describe` = #{describe}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="startAddress != null  and startAddress != ''"> and start_address = #{startAddress}</if>
+            <if test="endAddress != null  and endAddress != ''"> and end_address = #{endAddress}</if>
+            <if test="startLonLat != null  and startLonLat != ''"> and start_lon_lat = #{startLonLat}</if>
+            <if test="endLonLat != null  and endLonLat != ''"> and end_lon_lat = #{endLonLat}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="number != null  and number != ''"> and `number` = #{number}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="total != null "> and total = #{total}</if>
+            <if test="alreadyTotal != null "> and already_total = #{alreadyTotal}</if>
+            <if test="viewTotal != null "> and view_total = #{viewTotal}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+        </where>
+    </delete>
+</mapper>

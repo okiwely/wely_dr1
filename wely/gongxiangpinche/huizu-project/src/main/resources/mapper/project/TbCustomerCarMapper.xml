@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.TbCustomerCarMapper">
+
+    <resultMap type="TbCustomerCar" id="TbCustomerCarResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customerName"    />
+        <result property="info"    column="info"    />
+        <result property="gasoline"    column="gasoline"    />
+        <result property="carCc"    column="car_cc"    />
+        <result property="total"    column="total"    />
+        <result property="isEtc"    column="is_etc"    />
+        <result property="manufacturer"    column="manufacturer"    />
+        <result property="model"    column="model"    />
+        <result property="color"    column="color"    />
+        <result property="decade"    column="decade"    />
+        <result property="grade"    column="grade"    />
+        <result property="isNavigation"    column="is_navigation"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="standby1"    column="standby1"    />
+        <result property="standby2"    column="standby2"    />
+        <result property="standby3"    column="standby3"    />
+    </resultMap>
+
+
+    <sql id="selectTbCustomerCarVo">
+        select a.id, a.customer_id, b.name customerName, a.info, a.gasoline, a.car_cc, a.total, a.is_etc, a.manufacturer, a.model, a.color, a.decade, a.grade, a.is_navigation, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag, a.standby1, a.standby2, a.standby3
+        from tb_customer_car a
+        left join pro_customer b on a.customer_id = b.id
+    </sql>
+
+    <select id="selectTbCustomerCarList" parameterType="TbCustomerCar" resultMap="TbCustomerCarResult">
+        <include refid="selectTbCustomerCarVo"/>
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="info != null  and info != ''"> and a.info = #{info}</if>
+            <if test="gasoline != null  and gasoline != ''"> and a.gasoline = #{gasoline}</if>
+            <if test="carCc != null  and carCc != ''"> and a.car_cc = #{carCc}</if>
+            <if test="total != null  and total != ''"> and a.total = #{total}</if>
+            <if test="isEtc != null  and isEtc != ''"> and a.is_etc = #{isEtc}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and a.manufacturer = #{manufacturer}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="color != null  and color != ''"> and a.color = #{color}</if>
+            <if test="decade != null  and decade != ''"> and a.decade = #{decade}</if>
+            <if test="grade != null  and grade != ''"> and a.grade = #{grade}</if>
+            <if test="isNavigation != null  and isNavigation != ''"> and a.is_navigation = #{isNavigation}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectTbCustomerCarById" parameterType="Long" resultMap="TbCustomerCarResult">
+        <include refid="selectTbCustomerCarVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="selectTbCustomerCarByCustomerId" parameterType="Long" resultMap="TbCustomerCarResult">
+        <include refid="selectTbCustomerCarVo"/>
+        where a.customer_id = #{customerId}
+        limit 1
+    </select>
+    <select id="selectTbCustomerCarByCustomerId1" parameterType="Long" resultMap="TbCustomerCarResult">
+        <include refid="selectTbCustomerCarVo"/>
+        where a.customer_id = #{customerId}
+        limit 1
+    </select>
+
+    <insert id="insertTbCustomerCar" parameterType="TbCustomerCar" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="info != null">info,</if>
+            <if test="gasoline != null">gasoline,</if>
+            <if test="carCc != null">car_cc,</if>
+            <if test="total != null">total,</if>
+            <if test="isEtc != null">is_etc,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+            <if test="model != null">model,</if>
+            <if test="color != null">color,</if>
+            <if test="decade != null">decade,</if>
+            <if test="grade != null">grade,</if>
+            <if test="isNavigation != null">is_navigation,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="info != null">#{info},</if>
+            <if test="gasoline != null">#{gasoline},</if>
+            <if test="carCc != null">#{carCc},</if>
+            <if test="total != null">#{total},</if>
+            <if test="isEtc != null">#{isEtc},</if>
+            <if test="manufacturer != null">#{manufacturer},</if>
+            <if test="model != null">#{model},</if>
+            <if test="color != null">#{color},</if>
+            <if test="decade != null">#{decade},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="isNavigation != null">#{isNavigation},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbCustomerCar" parameterType="TbCustomerCar">
+        update tb_customer_car
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="info != null">info = #{info},</if>
+            <if test="gasoline != null">gasoline = #{gasoline},</if>
+            <if test="carCc != null">car_cc = #{carCc},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="isEtc != null">is_etc = #{isEtc},</if>
+            <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="decade != null">decade = #{decade},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="isNavigation != null">is_navigation = #{isNavigation},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="standby1 != null">standby1 = #{standby1},</if>
+            <if test="standby2 != null">standby2 = #{standby2},</if>
+            <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbCustomerCarById" parameterType="Long">
+        update tb_customer_car set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteTbCustomerCarByIds" parameterType="String">
+        update tb_customer_car set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getTbCustomerCarVo">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.info as info,
+            a.gasoline as gasoline,
+            a.car_cc as carCc,
+            a.total as total,
+            a.is_etc as isEtc,
+            a.manufacturer as manufacturer,
+            a.model as model,
+            a.color as color,
+            a.decade as decade,
+            a.grade as grade,
+            a.is_navigation as isNavigation,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3
+        from tb_customer_car a
+    </sql>
+
+    <select id="getTbCustomerCarList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.customer_id as customerId,
+            a.info as info,
+            a.gasoline as gasoline,
+            a.car_cc as carCc,
+            a.total as total,
+            a.is_etc as isEtc,
+            a.manufacturer as manufacturer,
+            a.model as model,
+            a.color as color,
+            a.decade as decade,
+            a.grade as grade,
+            a.is_navigation as isNavigation,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3
+        from tb_customer_car a
+        <where>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="info != null  and info != ''"> and a.info = #{info}</if>
+            <if test="gasoline != null  and gasoline != ''"> and a.gasoline = #{gasoline}</if>
+            <if test="carCc != null  and carCc != ''"> and a.car_cc = #{carCc}</if>
+            <if test="total != null  and total != ''"> and a.total = #{total}</if>
+            <if test="isEtc != null  and isEtc != ''"> and a.is_etc = #{isEtc}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and a.manufacturer = #{manufacturer}</if>
+            <if test="model != null  and model != ''"> and a.model = #{model}</if>
+            <if test="color != null  and color != ''"> and a.color = #{color}</if>
+            <if test="decade != null  and decade != ''"> and a.decade = #{decade}</if>
+            <if test="grade != null  and grade != ''"> and a.grade = #{grade}</if>
+            <if test="isNavigation != null  and isNavigation != ''"> and a.is_navigation = #{isNavigation}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getTbCustomerCar" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbCustomerCarVo"/>
+        where a.customer_id = #{customerId}
+        limit 1
+    </select>
+    <select id="getTbCustomerCar1" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.info as info,
+            a.gasoline as gasoline,
+            a.car_cc as carCc,
+            a.total as total,
+            a.is_etc as isEtc
+        from tb_customer_car a
+        where a.customer_id = #{customerId}
+        limit 1
+    </select>
+
+    <insert id="addTbCustomerCar" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_customer_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="info != null">info,</if>
+            <if test="gasoline != null">gasoline,</if>
+            <if test="carCc != null">car_cc,</if>
+            <if test="total != null">total,</if>
+            <if test="isEtc != null">is_etc,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+            <if test="model != null">model,</if>
+            <if test="color != null">color,</if>
+            <if test="decade != null">decade,</if>
+            <if test="grade != null">grade,</if>
+            <if test="isNavigation != null">is_navigation,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="info != null">#{info},</if>
+            <if test="gasoline != null">#{gasoline},</if>
+            <if test="carCc != null">#{carCc},</if>
+            <if test="total != null">#{total},</if>
+            <if test="isEtc != null">#{isEtc},</if>
+            <if test="manufacturer != null">#{manufacturer},</if>
+            <if test="model != null">#{model},</if>
+            <if test="color != null">#{color},</if>
+            <if test="decade != null">#{decade},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="isNavigation != null">#{isNavigation},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+        </trim>
+    </insert>
+
+    <update id="editTbCustomerCar" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_car
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="customerId != null">customer_id = #{customerId},</if>
+             <if test="info != null">info = #{info},</if>
+             <if test="gasoline != null">gasoline = #{gasoline},</if>
+             <if test="carCc != null">car_cc = #{carCc},</if>
+             <if test="total != null">total = #{total},</if>
+             <if test="isEtc != null">is_etc = #{isEtc},</if>
+             <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+             <if test="model != null">model = #{model},</if>
+             <if test="color != null">color = #{color},</if>
+             <if test="decade != null">decade = #{decade},</if>
+             <if test="grade != null">grade = #{grade},</if>
+             <if test="isNavigation != null">is_navigation = #{isNavigation},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+             <if test="standby1 != null">standby1 = #{standby1},</if>
+             <if test="standby2 != null">standby2 = #{standby2},</if>
+             <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where customer_id = #{customerId}
+    </update>
+
+    <delete id="removeTbCustomerCars" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_car set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeTbCustomerCar" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_customer_car set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveTbCustomerCar" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from tb_customer_car
+        <where>
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="info != null  and info != ''"> and info = #{info}</if>
+            <if test="gasoline != null  and gasoline != ''"> and gasoline = #{gasoline}</if>
+            <if test="carCc != null  and carCc != ''"> and car_cc = #{carCc}</if>
+            <if test="total != null  and total != ''"> and total = #{total}</if>
+            <if test="isEtc != null  and isEtc != ''"> and is_etc = #{isEtc}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="color != null  and color != ''"> and color = #{color}</if>
+            <if test="decade != null  and decade != ''"> and decade = #{decade}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="isNavigation != null  and isNavigation != ''"> and is_navigation = #{isNavigation}</if>
+        </where>
+    </delete>
+</mapper>

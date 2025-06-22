@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.TbDivisionMapper">
+
+    <resultMap type="TbDivision" id="TbDivisionResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="cityC"    column="city_C"    />
+        <result property="areaC"    column="area_C"    />
+        <result property="city"    column="city"    />
+        <result property="area"    column="area"    />
+    </resultMap>
+
+
+    <sql id="selectTbDivisionVo">
+        select a.id, a.code, a.city_C, a.area_C, a.city, a.area
+        from tb_division a
+    </sql>
+
+    <select id="selectTbDivisionList" parameterType="TbDivision" resultMap="TbDivisionResult">
+        <include refid="selectTbDivisionVo"/>
+        <where>
+            <if test="code != null  and code != ''"> and a.code = #{code}</if>
+            <if test="cityC != null  and cityC != ''"> and a.city_C = #{cityC}</if>
+            <if test="areaC != null  and areaC != ''"> and a.area_C = #{areaC}</if>
+            <if test="city != null  and city != ''"> and a.city = #{city}</if>
+            <if test="area != null  and area != ''"> and a.area = #{area}</if>
+        </where>
+
+    </select>
+
+    <select id="selectTbDivisionById" parameterType="Long" resultMap="TbDivisionResult">
+        <include refid="selectTbDivisionVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertTbDivision" parameterType="TbDivision" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_division
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="cityC != null">city_C,</if>
+            <if test="areaC != null">area_C,</if>
+            <if test="city != null">city,</if>
+            <if test="area != null">area,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="cityC != null">#{cityC},</if>
+            <if test="areaC != null">#{areaC},</if>
+            <if test="city != null">#{city},</if>
+            <if test="area != null">#{area},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTbDivision" parameterType="TbDivision">
+        update tb_division
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+            <if test="cityC != null">city_C = #{cityC},</if>
+            <if test="areaC != null">area_C = #{areaC},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="area != null">area = #{area},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbDivisionById" parameterType="Long">
+        delete tb_division where id = #{id}
+    </delete>
+
+    <delete id="deleteTbDivisionByIds" parameterType="String">
+        delete tb_division where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getTbDivisionVo">
+        select
+            a.id as id,
+            a.code as code,
+            a.city as city,
+            a.area as area,
+            a.is_main as isMain
+        from tb_division a
+    </sql>
+
+    <select id="getTbDivisionList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.code as code,
+            a.city as city,
+            a.area as area,
+            a.is_main as isMain
+        from tb_division a
+        <where>
+            <if test="code != null  and code != ''"> and a.code = #{code}</if>
+            <if test="city != null  and city != ''"> and a.city = #{city}</if>
+            <if test="area != null  and area != ''"> and a.area = #{area}</if>
+            <if test="isMain != null  and isMain != ''"> and a.is_main = #{isMain}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+    <select id="getCityList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select city_c city
+        from tb_division
+        where area_c is null
+    </select>
+    <select id="getAreaList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.area_c as area
+        from tb_division a
+        where a.city_c = #{city} and area_c is not null
+        order by a.code
+    </select>
+
+    <select id="getTbDivision" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbDivisionVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="addTbDivision" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_division
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="city != null">city,</if>
+            <if test="area != null">area,</if>
+            <if test="isMain != null">is_main,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="city != null">#{city},</if>
+            <if test="area != null">#{area},</if>
+            <if test="isMain != null">#{isMain},</if>
+        </trim>
+    </insert>
+
+    <update id="editTbDivision" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_division
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="code != null">code = #{code},</if>
+             <if test="city != null">city = #{city},</if>
+             <if test="area != null">area = #{area},</if>
+             <if test="isMain != null">is_main = #{isMain},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="removeTbDivisions" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_division set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeTbDivision" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_division set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveTbDivision" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from tb_division
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="area != null  and area != ''"> and area = #{area}</if>
+            <if test="isMain != null  and isMain != ''"> and is_main = #{isMain}</if>
+        </where>
+    </delete>
+</mapper>

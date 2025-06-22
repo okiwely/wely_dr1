@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.ProCustomerMapper">
+
+    <resultMap type="ProCustomer" id="ProCustomerResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="name"    column="name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="jimName"    column="jim_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="age"    column="age"    />
+        <result property="workingAge"    column="working_age"    />
+        <result property="height"    column="height"    />
+        <result property="weight"    column="weight"    />
+        <result property="email"    column="email"    />
+        <result property="bank"    column="bank"    />
+        <result property="number"    column="number"    />
+        <result property="phone"    column="phone"    />
+        <result property="password"    column="password"    />
+        <result property="score"    column="score"    />
+        <result property="carTotal"    column="car_total"    />
+        <result property="rate"    column="rate"    />
+        <result property="onLineTime"    column="on_line_time"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="province"    column="province"    />
+        <result property="provinceCode"    column="province_code"    />
+        <result property="city"    column="city"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="area"    column="area"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="address"    column="address"    />
+        <result property="lonLat"    column="lon_lat"    />
+        <result property="currentAddress"    column="current_address"    />
+        <result property="content"    column="content"    />
+        <result property="code"    column="code"    />
+        <result property="openId"    column="open_id"    />
+        <result property="qrcode"    column="qrcode"    />
+        <result property="proCode"    column="pro_code"    />
+        <result property="upId"    column="up_id"    />
+        <result property="money"    column="money"    />
+        <result property="integral"    column="integral"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="openFlag"    column="open_flag"    />
+        <result property="watchFlag"    column="watch_flag"    />
+        <result property="pushUrl"    column="push_url"    />
+        <result property="bond"    column="bond"    />
+        <result property="bondFlag"    column="bond_flag"    />
+        <result property="contractFlag"    column="contract_flag"    />
+        <result property="bondFile"    column="bond_file"    />
+        <result property="isAuth"    column="is_auth"    />
+        <result property="isDriver"    column="is_driver"    />
+        <result property="drivingLicense"    column="driving_license"    />
+        <result property="insurance"    column="insurance"    />
+        <result property="insuranceCertificate"    column="insurance_certificate"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="audit"    column="audit"    />
+        <result property="numberImage"    column="number_image"    />
+    </resultMap>
+
+
+    <sql id="selectProCustomerVo">
+        select a.id, a.type, a.avatar, a.name, a.nick_name, a.jim_name, a.sex, a.age, a.working_age, a.height, a.weight, a.email, a.bank, a.number, a.phone, a.password, a.score, a.car_total, a.rate, a.on_line_time, a.login_date, a.province, a.province_code, a.city, a.city_code, a.area, a.area_code, a.address, a.lon_lat, a.current_address, a.content, a.code, a.open_id, a.qrcode, a.pro_code, a.up_id, a.money, a.integral, a.start_time, a.end_time, a.open_flag, a.watch_flag, a.push_url, a.bond, a.bond_flag, a.contract_flag, a.bond_file, a.is_auth, a.is_driver, a.driving_license, a.insurance, a.insurance_certificate, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag,a.number_image,a.audit
+        from pro_customer a
+    </sql>
+
+    <select id="selectProCustomerList" parameterType="ProCustomer" resultMap="ProCustomerResult">
+        <include refid="selectProCustomerVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="avatar != null  and avatar != ''"> and a.avatar = #{avatar}</if>
+            <if test="name != null  and name != ''"> and a.name like concat('%', #{name}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and a.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="jimName != null  and jimName != ''"> and a.jim_name like concat('%', #{jimName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and a.sex = #{sex}</if>
+            <if test="age != null "> and a.age = #{age}</if>
+            <if test="workingAge != null "> and a.working_age = #{workingAge}</if>
+            <if test="height != null "> and a.height = #{height}</if>
+            <if test="weight != null "> and a.weight = #{weight}</if>
+            <if test="email != null  and email != ''"> and a.email = #{email}</if>
+            <if test="bank != null  and bank != ''"> and a.bank = #{bank}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="password != null  and password != ''"> and a.password = #{password}</if>
+            <if test="score != null  and score != ''"> and a.score = #{score}</if>
+            <if test="carTotal != null  and carTotal != ''"> and a.car_total = #{carTotal}</if>
+            <if test="rate != null  and rate != ''"> and a.rate = #{rate}</if>
+            <if test="onLineTime != null "> and a.on_line_time = #{onLineTime}</if>
+            <if test="loginDate != null "> and a.login_date = #{loginDate}</if>
+            <if test="province != null  and province != ''"> and a.province = #{province}</if>
+            <if test="provinceCode != null  and provinceCode != ''"> and a.province_code = #{provinceCode}</if>
+            <if test="city != null  and city != ''"> and a.city = #{city}</if>
+            <if test="cityCode != null  and cityCode != ''"> and a.city_code = #{cityCode}</if>
+            <if test="area != null  and area != ''"> and a.area = #{area}</if>
+            <if test="areaCode != null  and areaCode != ''"> and a.area_code = #{areaCode}</if>
+            <if test="address != null  and address != ''"> and a.address = #{address}</if>
+            <if test="lonLat != null  and lonLat != ''"> and a.lon_lat = #{lonLat}</if>
+            <if test="currentAddress != null  and currentAddress != ''"> and a.current_address = #{currentAddress}</if>
+            <if test="code != null  and code != ''"> and a.code = #{code}</if>
+            <if test="openId != null  and openId != ''"> and a.open_id = #{openId}</if>
+            <if test="qrcode != null  and qrcode != ''"> and a.qrcode = #{qrcode}</if>
+            <if test="proCode != null  and proCode != ''"> and a.pro_code = #{proCode}</if>
+            <if test="upId != null "> and a.up_id = #{upId}</if>
+            <if test="money != null "> and a.money = #{money}</if>
+            <if test="integral != null "> and a.integral = #{integral}</if>
+            <if test="startTime != null "> and a.start_time = #{startTime}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="openFlag != null "> and a.open_flag = #{openFlag}</if>
+            <if test="watchFlag != null "> and a.watch_flag = #{watchFlag}</if>
+            <if test="pushUrl != null  and pushUrl != ''"> and a.push_url = #{pushUrl}</if>
+            <if test="bond != null "> and a.bond = #{bond}</if>
+            <if test="bondFlag != null  and bondFlag != ''"> and a.bond_flag = #{bondFlag}</if>
+            <if test="contractFlag != null  and contractFlag != ''"> and a.contract_flag = #{contractFlag}</if>
+            <if test="bondFile != null  and bondFile != ''"> and a.bond_file = #{bondFile}</if>
+            <if test="isAuth != null  and isAuth != ''"> and a.is_auth = #{isAuth}</if>
+            <if test="isDriver != null  and isDriver != ''"> and a.is_driver = #{isDriver}</if>
+            <if test="audit != null  and audit != ''"> and a.audit = #{audit}</if>
+            <if test="numberImage != null  and numberImage != ''"> and a.number_image = #{numberImage}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectProCustomerById" parameterType="Long" resultMap="ProCustomerResult">
+        <include refid="selectProCustomerVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertProCustomer" parameterType="ProCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="name != null">name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="jimName != null">jim_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="age != null">age,</if>
+            <if test="workingAge != null">working_age,</if>
+            <if test="height != null">height,</if>
+            <if test="weight != null">weight,</if>
+            <if test="email != null">email,</if>
+            <if test="bank != null">bank,</if>
+            <if test="number != null">number,</if>
+            <if test="phone != null">phone,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="score != null">score,</if>
+            <if test="carTotal != null">car_total,</if>
+            <if test="rate != null">rate,</if>
+            <if test="onLineTime != null">on_line_time,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="province != null">province,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="city != null">city,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="area != null">area,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="address != null">address,</if>
+            <if test="lonLat != null">lon_lat,</if>
+            <if test="currentAddress != null">current_address,</if>
+            <if test="content != null">content,</if>
+            <if test="code != null">code,</if>
+            <if test="openId != null">open_id,</if>
+            <if test="qrcode != null">qrcode,</if>
+            <if test="proCode != null">pro_code,</if>
+            <if test="upId != null">up_id,</if>
+            <if test="money != null">money,</if>
+            <if test="integral != null">integral,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="openFlag != null">open_flag,</if>
+            <if test="watchFlag != null">watch_flag,</if>
+            <if test="pushUrl != null">push_url,</if>
+            <if test="bond != null">bond,</if>
+            <if test="bondFlag != null">bond_flag,</if>
+            <if test="contractFlag != null">contract_flag,</if>
+            <if test="bondFile != null">bond_file,</if>
+            <if test="isAuth != null">is_auth,</if>
+            <if test="isDriver != null">is_driver,</if>
+            <if test="drivingLicense != null">driving_license,</if>
+            <if test="insurance != null">insurance,</if>
+            <if test="insuranceCertificate != null">insurance_certificate,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="name != null">#{name},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="jimName != null">#{jimName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="age != null">#{age},</if>
+            <if test="workingAge != null">#{workingAge},</if>
+            <if test="height != null">#{height},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bank != null">#{bank},</if>
+            <if test="number != null">#{number},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="score != null">#{score},</if>
+            <if test="carTotal != null">#{carTotal},</if>
+            <if test="rate != null">#{rate},</if>
+            <if test="onLineTime != null">#{onLineTime},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="province != null">#{province},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="city != null">#{city},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="area != null">#{area},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="lonLat != null">#{lonLat},</if>
+            <if test="currentAddress != null">#{currentAddress},</if>
+            <if test="content != null">#{content},</if>
+            <if test="code != null">#{code},</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="qrcode != null">#{qrcode},</if>
+            <if test="proCode != null">#{proCode},</if>
+            <if test="upId != null">#{upId},</if>
+            <if test="money != null">#{money},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="openFlag != null">#{openFlag},</if>
+            <if test="watchFlag != null">#{watchFlag},</if>
+            <if test="pushUrl != null">#{pushUrl},</if>
+            <if test="bond != null">#{bond},</if>
+            <if test="bondFlag != null">#{bondFlag},</if>
+            <if test="contractFlag != null">#{contractFlag},</if>
+            <if test="bondFile != null">#{bondFile},</if>
+            <if test="isAuth != null">#{isAuth},</if>
+            <if test="isDriver != null">#{isDriver},</if>
+            <if test="drivingLicense != null">#{drivingLicense},</if>
+            <if test="insurance != null">#{insurance},</if>
+            <if test="insuranceCertificate != null">#{insuranceCertificate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProCustomer" parameterType="ProCustomer">
+        update pro_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="jimName != null">jim_name = #{jimName},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="workingAge != null">working_age = #{workingAge},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="bank != null">bank = #{bank},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="carTotal != null">car_total = #{carTotal},</if>
+            <if test="rate != null">rate = #{rate},</if>
+            <if test="onLineTime != null">on_line_time = #{onLineTime},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="lonLat != null">lon_lat = #{lonLat},</if>
+            <if test="currentAddress != null">current_address = #{currentAddress},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="qrcode != null">qrcode = #{qrcode},</if>
+            <if test="proCode != null">pro_code = #{proCode},</if>
+            <if test="upId != null">up_id = #{upId},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="integral != null">integral = #{integral},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="openFlag != null">open_flag = #{openFlag},</if>
+            <if test="watchFlag != null">watch_flag = #{watchFlag},</if>
+            <if test="pushUrl != null">push_url = #{pushUrl},</if>
+            <if test="bond != null">bond = #{bond},</if>
+            <if test="bondFlag != null">bond_flag = #{bondFlag},</if>
+            <if test="contractFlag != null">contract_flag = #{contractFlag},</if>
+            <if test="bondFile != null">bond_file = #{bondFile},</if>
+            <if test="isAuth != null">is_auth = #{isAuth},</if>
+            <if test="isDriver != null">is_driver = #{isDriver},</if>
+            <if test="drivingLicense != null">driving_license = #{drivingLicense},</if>
+            <if test="insurance != null">insurance = #{insurance},</if>
+            <if test="insuranceCertificate != null">insurance_certificate = #{insuranceCertificate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="audit != null">audit = #{audit},</if>
+            <if test="numberImage != null">number_image = #{numberImage},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProCustomerById" parameterType="Long">
+        update pro_customer set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteProCustomerByIds" parameterType="String">
+        update pro_customer set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getProCustomerVo">
+        select
+            a.id as customerId,
+            a.type as type,
+            a.avatar as avatar,
+            a.name as name,
+            a.nick_name as nickName,
+            a.jim_name as jimName,
+            a.sex as sex,
+            a.age as age,
+            a.working_age as workingAge,
+            a.height as height,
+            a.weight as weight,
+            a.email as email,
+            a.bank as bank,
+            a.number as number,
+            a.phone as phone,
+            a.password as password,
+            a.score as score,
+            a.car_total as carTotal,
+            a.rate as rate,
+            a.on_line_time as onLineTime,
+            a.login_date as loginDate,
+            a.province as province,
+            a.province_code as provinceCode,
+            a.city as city,
+            a.city_code as cityCode,
+            a.area as area,
+            a.area_code as areaCode,
+            a.address as address,
+            a.lon_lat as lonLat,
+            a.current_address as currentAddress,
+            a.content as content,
+            a.code as code,
+            a.open_id as openId,
+            a.qrcode as qrcode,
+            a.pro_code as proCode,
+            a.up_id as upId,
+            a.money as money,
+            a.integral as integral,
+            a.start_time as startTime,
+            a.end_time as endTime,
+            a.open_flag as openFlag,
+            a.watch_flag as watchFlag,
+            a.push_url as pushUrl,
+            a.bond as bond,
+            a.bond_flag as bondFlag,
+            a.contract_flag as contractFlag,
+            a.bond_file as bondFile,
+            a.is_auth as isAuth,
+            a.is_driver as isDriver,
+            a.driving_license as drivingLicense,
+            a.insurance as insurance,
+            a.insurance_certificate as insuranceCertificate,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag
+        from pro_customer a
+    </sql>
+
+    <select id="getProCustomerList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as customerId,
+            a.type as type,
+            a.avatar as avatar,
+            a.name as name,
+            a.nick_name as nickName,
+            a.jim_name as jimName,
+            a.sex as sex,
+            a.age as age,
+            a.working_age as workingAge,
+            a.height as height,
+            a.weight as weight,
+            a.email as email,
+            a.bank as bank,
+            a.number as number,
+            a.phone as phone,
+            a.password as password,
+            a.score as score,
+            a.car_total as carTotal,
+            a.rate as rate,
+            a.on_line_time as onLineTime,
+            a.login_date as loginDate,
+            a.province as province,
+            a.province_code as provinceCode,
+            a.city as city,
+            a.city_code as cityCode,
+            a.area as area,
+            a.area_code as areaCode,
+            a.address as address,
+            a.lon_lat as lonLat,
+            a.current_address as currentAddress,
+            a.content as content,
+            a.code as code,
+            a.open_id as openId,
+            a.qrcode as qrcode,
+            a.pro_code as proCode,
+            a.up_id as upId,
+            a.money as money,
+            a.integral as integral,
+            a.start_time as startTime,
+            a.end_time as endTime,
+            a.open_flag as openFlag,
+            a.watch_flag as watchFlag,
+            a.push_url as pushUrl,
+            a.bond as bond,
+            a.bond_flag as bondFlag,
+            a.contract_flag as contractFlag,
+            a.bond_file as bondFile,
+            a.is_auth as isAuth,
+            a.is_driver as isDriver,
+            a.driving_license as drivingLicense,
+            a.insurance as insurance,
+            a.insurance_certificate as insuranceCertificate,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag
+        from pro_customer a
+        <where>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="avatar != null  and avatar != ''"> and a.avatar = #{avatar}</if>
+            <if test="name != null  and name != ''"> and a.name like concat('%', #{name}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and a.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="jimName != null  and jimName != ''"> and a.jim_name like concat('%', #{jimName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and a.sex = #{sex}</if>
+            <if test="age != null "> and a.age = #{age}</if>
+            <if test="workingAge != null "> and a.working_age = #{workingAge}</if>
+            <if test="height != null "> and a.height = #{height}</if>
+            <if test="weight != null "> and a.weight = #{weight}</if>
+            <if test="email != null  and email != ''"> and a.email = #{email}</if>
+            <if test="bank != null  and bank != ''"> and a.bank = #{bank}</if>
+            <if test="number != null  and number != ''"> and a.number = #{number}</if>
+            <if test="phone != null  and phone != ''"> and a.phone = #{phone}</if>
+            <if test="password != null  and password != ''"> and a.password = #{password}</if>
+            <if test="score != null  and score != ''"> and a.score = #{score}</if>
+            <if test="carTotal != null  and carTotal != ''"> and a.car_total = #{carTotal}</if>
+            <if test="rate != null  and rate != ''"> and a.rate = #{rate}</if>
+            <if test="onLineTime != null "> and a.on_line_time = #{onLineTime}</if>
+            <if test="loginDate != null "> and a.login_date = #{loginDate}</if>
+            <if test="province != null  and province != ''"> and a.province = #{province}</if>
+            <if test="provinceCode != null  and provinceCode != ''"> and a.province_code = #{provinceCode}</if>
+            <if test="city != null  and city != ''"> and a.city = #{city}</if>
+            <if test="cityCode != null  and cityCode != ''"> and a.city_code = #{cityCode}</if>
+            <if test="area != null  and area != ''"> and a.area = #{area}</if>
+            <if test="areaCode != null  and areaCode != ''"> and a.area_code = #{areaCode}</if>
+            <if test="address != null  and address != ''"> and a.address = #{address}</if>
+            <if test="lonLat != null  and lonLat != ''"> and a.lon_lat = #{lonLat}</if>
+            <if test="currentAddress != null  and currentAddress != ''"> and a.current_address = #{currentAddress}</if>
+            <if test="code != null  and code != ''"> and a.code = #{code}</if>
+            <if test="openId != null  and openId != ''"> and a.open_id = #{openId}</if>
+            <if test="qrcode != null  and qrcode != ''"> and a.qrcode = #{qrcode}</if>
+            <if test="proCode != null  and proCode != ''"> and a.pro_code = #{proCode}</if>
+            <if test="upId != null "> and a.up_id = #{upId}</if>
+            <if test="money != null "> and a.money = #{money}</if>
+            <if test="integral != null "> and a.integral = #{integral}</if>
+            <if test="startTime != null "> and a.start_time = #{startTime}</if>
+            <if test="endTime != null "> and a.end_time = #{endTime}</if>
+            <if test="openFlag != null "> and a.open_flag = #{openFlag}</if>
+            <if test="watchFlag != null "> and a.watch_flag = #{watchFlag}</if>
+            <if test="pushUrl != null  and pushUrl != ''"> and a.push_url = #{pushUrl}</if>
+            <if test="bond != null "> and a.bond = #{bond}</if>
+            <if test="bondFlag != null  and bondFlag != ''"> and a.bond_flag = #{bondFlag}</if>
+            <if test="contractFlag != null  and contractFlag != ''"> and a.contract_flag = #{contractFlag}</if>
+            <if test="bondFile != null  and bondFile != ''"> and a.bond_file = #{bondFile}</if>
+            <if test="isAuth != null  and isAuth != ''"> and a.is_auth = #{isAuth}</if>
+            <if test="isDriver != null  and isDriver != ''"> and a.is_driver = #{isDriver}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getProCustomer" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getProCustomerVo"/>
+        where a.id = #{customerId}
+    </select>
+    <select id="getProCustomer1" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getProCustomerVo"/>
+        where a.email = #{email}
+    </select>
+
+    <insert id="addProCustomer" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="name != null">name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="jimName != null">jim_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="age != null">age,</if>
+            <if test="workingAge != null">working_age,</if>
+            <if test="height != null">height,</if>
+            <if test="weight != null">weight,</if>
+            <if test="email != null">email,</if>
+            <if test="bank != null">bank,</if>
+            <if test="number != null">number,</if>
+            <if test="phone != null">phone,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="score != null">score,</if>
+            <if test="carTotal != null">car_total,</if>
+            <if test="rate != null">rate,</if>
+            <if test="onLineTime != null">on_line_time,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="province != null">province,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="city != null">city,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="area != null">area,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="address != null">address,</if>
+            <if test="lonLat != null">lon_lat,</if>
+            <if test="currentAddress != null">current_address,</if>
+            <if test="content != null">content,</if>
+            <if test="code != null">code,</if>
+            <if test="openId != null">open_id,</if>
+            <if test="qrcode != null">qrcode,</if>
+            <if test="proCode != null">pro_code,</if>
+            <if test="upId != null">up_id,</if>
+            <if test="money != null">money,</if>
+            <if test="integral != null">integral,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="openFlag != null">open_flag,</if>
+            <if test="watchFlag != null">watch_flag,</if>
+            <if test="pushUrl != null">push_url,</if>
+            <if test="bond != null">bond,</if>
+            <if test="bondFlag != null">bond_flag,</if>
+            <if test="contractFlag != null">contract_flag,</if>
+            <if test="bondFile != null">bond_file,</if>
+            <if test="isAuth != null">is_auth,</if>
+            <if test="isDriver != null">is_driver,</if>
+            <if test="drivingLicense != null">driving_license,</if>
+            <if test="insurance != null">insurance,</if>
+            <if test="insuranceCertificate != null">insurance_certificate,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="name != null">#{name},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="jimName != null">#{jimName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="age != null">#{age},</if>
+            <if test="workingAge != null">#{workingAge},</if>
+            <if test="height != null">#{height},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bank != null">#{bank},</if>
+            <if test="number != null">#{number},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="score != null">#{score},</if>
+            <if test="carTotal != null">#{carTotal},</if>
+            <if test="rate != null">#{rate},</if>
+            <if test="onLineTime != null">#{onLineTime},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="province != null">#{province},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="city != null">#{city},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="area != null">#{area},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="lonLat != null">#{lonLat},</if>
+            <if test="currentAddress != null">#{currentAddress},</if>
+            <if test="content != null">#{content},</if>
+            <if test="code != null">#{code},</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="qrcode != null">#{qrcode},</if>
+            <if test="proCode != null">#{proCode},</if>
+            <if test="upId != null">#{upId},</if>
+            <if test="money != null">#{money},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="openFlag != null">#{openFlag},</if>
+            <if test="watchFlag != null">#{watchFlag},</if>
+            <if test="pushUrl != null">#{pushUrl},</if>
+            <if test="bond != null">#{bond},</if>
+            <if test="bondFlag != null">#{bondFlag},</if>
+            <if test="contractFlag != null">#{contractFlag},</if>
+            <if test="bondFile != null">#{bondFile},</if>
+            <if test="isAuth != null">#{isAuth},</if>
+            <if test="isDriver != null">#{isDriver},</if>
+            <if test="drivingLicense != null">#{drivingLicense},</if>
+            <if test="insurance != null">#{insurance},</if>
+            <if test="insuranceCertificate != null">#{insuranceCertificate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="editProCustomer" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="type != null">type = #{type},</if>
+             <if test="avatar != null">avatar = #{avatar},</if>
+             <if test="name != null">name = #{name},</if>
+             <if test="nickName != null">nick_name = #{nickName},</if>
+             <if test="jimName != null">jim_name = #{jimName},</if>
+             <if test="sex != null">sex = #{sex},</if>
+             <if test="age != null">age = #{age},</if>
+             <if test="workingAge != null">working_age = #{workingAge},</if>
+             <if test="height != null">height = #{height},</if>
+             <if test="weight != null">weight = #{weight},</if>
+             <if test="email != null">email = #{email},</if>
+             <if test="bank != null">bank = #{bank},</if>
+             <if test="number != null">number = #{number},</if>
+             <if test="phone != null">phone = #{phone},</if>
+             <if test="password != null and password != ''">password = #{password},</if>
+             <if test="score != null">score = #{score},</if>
+             <if test="carTotal != null">car_total = #{carTotal},</if>
+             <if test="rate != null">rate = #{rate},</if>
+             <if test="onLineTime != null">on_line_time = #{onLineTime},</if>
+             <if test="loginDate != null">login_date = #{loginDate},</if>
+             <if test="province != null">province = #{province},</if>
+             <if test="provinceCode != null">province_code = #{provinceCode},</if>
+             <if test="city != null">city = #{city},</if>
+             <if test="cityCode != null">city_code = #{cityCode},</if>
+             <if test="area != null">area = #{area},</if>
+             <if test="areaCode != null">area_code = #{areaCode},</if>
+             <if test="address != null">address = #{address},</if>
+             <if test="lonLat != null">lon_lat = #{lonLat},</if>
+             <if test="currentAddress != null">current_address = #{currentAddress},</if>
+             <if test="content != null">content = #{content},</if>
+             <if test="code != null">code = #{code},</if>
+             <if test="openId != null">open_id = #{openId},</if>
+             <if test="qrcode != null">qrcode = #{qrcode},</if>
+             <if test="proCode != null">pro_code = #{proCode},</if>
+             <if test="upId != null">up_id = #{upId},</if>
+             <if test="money != null">money = #{money},</if>
+             <if test="integral != null">integral = #{integral},</if>
+             <if test="startTime != null">start_time = #{startTime},</if>
+             <if test="endTime != null">end_time = #{endTime},</if>
+             <if test="openFlag != null">open_flag = #{openFlag},</if>
+             <if test="watchFlag != null">watch_flag = #{watchFlag},</if>
+             <if test="pushUrl != null">push_url = #{pushUrl},</if>
+             <if test="bond != null">bond = #{bond},</if>
+             <if test="bondFlag != null">bond_flag = #{bondFlag},</if>
+             <if test="contractFlag != null">contract_flag = #{contractFlag},</if>
+             <if test="bondFile != null">bond_file = #{bondFile},</if>
+             <if test="isAuth != null">is_auth = #{isAuth},</if>
+             <if test="isDriver != null">is_driver = #{isDriver},</if>
+             <if test="drivingLicense != null">driving_license = #{drivingLicense},</if>
+             <if test="insurance != null">insurance = #{insurance},</if>
+             <if test="insuranceCertificate != null">insurance_certificate = #{insuranceCertificate},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+             <if test="numberImage != null">number_image = #{numberImage},</if>
+             <if test="audit != null">audit = #{audit},</if>
+        </trim>
+        where id = #{customerId}
+    </update>
+
+    <delete id="removeProCustomers" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeProCustomer" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveProCustomer" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from pro_customer
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="jimName != null  and jimName != ''"> and jim_name like concat('%', #{jimName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="workingAge != null "> and working_age = #{workingAge}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="bank != null  and bank != ''"> and bank = #{bank}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="score != null  and score != ''"> and score = #{score}</if>
+            <if test="carTotal != null  and carTotal != ''"> and car_total = #{carTotal}</if>
+            <if test="rate != null  and rate != ''"> and rate = #{rate}</if>
+            <if test="onLineTime != null "> and on_line_time = #{onLineTime}</if>
+            <if test="loginDate != null "> and login_date = #{loginDate}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="provinceCode != null  and provinceCode != ''"> and province_code = #{provinceCode}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="cityCode != null  and cityCode != ''"> and city_code = #{cityCode}</if>
+            <if test="area != null  and area != ''"> and area = #{area}</if>
+            <if test="areaCode != null  and areaCode != ''"> and area_code = #{areaCode}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="lonLat != null  and lonLat != ''"> and lon_lat = #{lonLat}</if>
+            <if test="currentAddress != null  and currentAddress != ''"> and current_address = #{currentAddress}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="openId != null  and openId != ''"> and open_id = #{openId}</if>
+            <if test="qrcode != null  and qrcode != ''"> and qrcode = #{qrcode}</if>
+            <if test="proCode != null  and proCode != ''"> and pro_code = #{proCode}</if>
+            <if test="upId != null "> and up_id = #{upId}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="integral != null "> and integral = #{integral}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="openFlag != null "> and open_flag = #{openFlag}</if>
+            <if test="watchFlag != null "> and watch_flag = #{watchFlag}</if>
+            <if test="pushUrl != null  and pushUrl != ''"> and push_url = #{pushUrl}</if>
+            <if test="bond != null "> and bond = #{bond}</if>
+            <if test="bondFlag != null  and bondFlag != ''"> and bond_flag = #{bondFlag}</if>
+            <if test="contractFlag != null  and contractFlag != ''"> and contract_flag = #{contractFlag}</if>
+            <if test="bondFile != null  and bondFile != ''"> and bond_file = #{bondFile}</if>
+            <if test="isAuth != null  and isAuth != ''"> and is_auth = #{isAuth}</if>
+            <if test="isDriver != null  and isDriver != ''"> and is_driver = #{isDriver}</if>
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.project.mapper.TbRouteDetailMapper">
+
+    <resultMap type="TbRouteDetail" id="TbRouteDetailResult">
+        <result property="id"    column="id"    />
+        <result property="routeId"    column="route_id"    />
+        <result property="total"    column="total"    />
+        <result property="price"    column="price"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="standby1"    column="standby1"    />
+        <result property="standby2"    column="standby2"    />
+        <result property="standby3"    column="standby3"    />
+    </resultMap>
+
+
+    <sql id="selectTbRouteDetailVo">
+        select a.id, a.route_id, a.total, a.price, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag, a.standby1, a.standby2, a.standby3
+        from tb_route_detail a
+    </sql>
+
+    <select id="selectTbRouteDetailList" parameterType="TbRouteDetail" resultMap="TbRouteDetailResult">
+        <include refid="selectTbRouteDetailVo"/>
+        <where>
+            <if test="routeId != null "> and a.route_id = #{routeId}</if>
+            <if test="total != null  and total != ''"> and a.total = #{total}</if>
+            <if test="price != null  and price != ''"> and a.price = #{price}</if>
+            and a.del_flag != '1'
+        </where>
+
+    </select>
+
+    <select id="selectTbRouteDetailById" parameterType="Long" resultMap="TbRouteDetailResult">
+        <include refid="selectTbRouteDetailVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertTbRouteDetail" parameterType="TbRouteDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_route_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">route_id,</if>
+            <if test="total != null">total,</if>
+            <if test="price != null">price,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">#{routeId},</if>
+            <if test="total != null">#{total},</if>
+            <if test="price != null">#{price},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbRouteDetail" parameterType="TbRouteDetail">
+        update tb_route_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeId != null">route_id = #{routeId},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="standby1 != null">standby1 = #{standby1},</if>
+            <if test="standby2 != null">standby2 = #{standby2},</if>
+            <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbRouteDetailById" parameterType="Long">
+        update tb_route_detail set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteTbRouteDetailByIds" parameterType="String">
+        update tb_route_detail set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getTbRouteDetailVo">
+        select
+            a.id as id,
+            a.route_id as routeId,
+            a.total as total,
+            a.price as price,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3
+        from tb_route_detail a
+    </sql>
+
+    <select id="getTbRouteDetailList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.route_id as routeId,
+            a.total as total,
+            a.price as price,
+            a.status as status,
+            a.create_by as createBy,
+            a.create_time as createTime,
+            a.update_by as updateBy,
+            a.update_time as updateTime,
+            a.remark as remark,
+            a.del_flag as delFlag,
+            a.standby1 as standby1,
+            a.standby2 as standby2,
+            a.standby3 as standby3
+        from tb_route_detail a
+        <where>
+            <if test="routeId != null "> and a.route_id = #{routeId}</if>
+            <if test="total != null  and total != ''"> and a.total = #{total}</if>
+            <if test="price != null  and price != ''"> and a.price = #{price}</if>
+            and a.del_flag != '1'
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="getTbRouteDetail" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getTbRouteDetailVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="getTbRouteDetail1" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select
+            a.id as id,
+            a.total as total,
+            a.price as price
+        from tb_route_detail a
+        where a.route_id = #{routeId}
+    </select>
+
+    <insert id="addTbRouteDetail" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_route_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">route_id,</if>
+            <if test="total != null">total,</if>
+            <if test="price != null">price,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="standby1 != null">standby1,</if>
+            <if test="standby2 != null">standby2,</if>
+            <if test="standby3 != null">standby3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">#{routeId},</if>
+            <if test="total != null">#{total},</if>
+            <if test="price != null">#{price},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="standby1 != null">#{standby1},</if>
+            <if test="standby2 != null">#{standby2},</if>
+            <if test="standby3 != null">#{standby3},</if>
+        </trim>
+    </insert>
+
+    <update id="editTbRouteDetail" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_route_detail
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="routeId != null">route_id = #{routeId},</if>
+             <if test="total != null">total = #{total},</if>
+             <if test="price != null">price = #{price},</if>
+             <if test="status != null">status = #{status},</if>
+             <if test="createBy != null">create_by = #{createBy},</if>
+             <if test="createTime != null">create_time = #{createTime},</if>
+             <if test="updateBy != null">update_by = #{updateBy},</if>
+             <if test="updateTime != null">update_time = #{updateTime},</if>
+             <if test="remark != null">remark = #{remark},</if>
+             <if test="delFlag != null">del_flag = #{delFlag},</if>
+             <if test="standby1 != null">standby1 = #{standby1},</if>
+             <if test="standby2 != null">standby2 = #{standby2},</if>
+             <if test="standby3 != null">standby3 = #{standby3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="removeTbRouteDetails" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_route_detail set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeTbRouteDetail" parameterType="com.alibaba.fastjson2.JSONObject">
+        update tb_route_detail set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="batchRemoveTbRouteDetail" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete from tb_route_detail
+        <where>
+            <if test="routeId != null "> and route_id = #{routeId}</if>
+            <if test="total != null  and total != ''"> and total = #{total}</if>
+            <if test="price != null  and price != ''"> and price = #{price}</if>
+        </where>
+    </delete>
+</mapper>

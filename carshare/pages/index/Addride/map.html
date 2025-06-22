@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Example</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBltUdYH_KjpYkVqRScXv2l6TWhZr3fqLk&libraries=places"></script>
+</head>
+<body>
+    <div>
+        <input id="origin" type="text" placeholder="入力 出発地" />
+        <input id="destination" type="text" placeholder="入力 目的地" />
+    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+
+    <script>
+    let map, directionsService, directionsRenderer, originAutocomplete, destinationAutocomplete, originMarker, destinationMarker;
+
+    function initializeMap() {
+        // 设置地图仅显示日本区域
+        const japanBounds = {
+            north: 45.551483,
+            south: 24.396308,
+            west: 122.93457,
+            east: 153.986672
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 35.6762, lng: 139.6503 },  // 设置地图中心为东京
+            zoom: 5,  // 显示整个日本区域
+            restriction: {
+                latLngBounds: japanBounds,
+                strictBounds: true
+            }
+        });
+
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+            suppressMarkers: true  // 禁用默认的A和B标记
+        });
+        directionsRenderer.setMap(map);
+
+        // 初始化自动补全并限制区域为日本
+        originAutocomplete = new google.maps.places.Autocomplete(document.getElementById('origin'), {
+            componentRestrictions: { country: 'jp' }  // 限制为日本
+        });
+		
+        destinationAutocomplete = new google.maps.places.Autocomplete(document.getElementById('destination'), {
+            componentRestrictions: { country: 'jp' }  // 限制为日本
+        });
+		
+		console.log(directionsService,originAutocomplete,'------originAutocomplete--------------')
+		
+        // 当输入出发地时，自动标记在地图上
+        originAutocomplete.addListener('place_changed', function() {
+			
+            const place = originAutocomplete.getPlace();
+			console.log(place,'place------------------自动标记')
+            if (!place.geometry) {
+                console.error('出発地のジオメトリを取得できません');
+                return;
+            }
+            if (originMarker) {
+                originMarker.setMap(null);
+            }
+            originMarker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: "出発地",
+                label: "出発地"
+            });
+            map.setCenter(place.geometry.location);
+            map.setZoom(10);  // 放大到该地区
+            // 如果已经输入了目的地，连出路线
+            if (destinationAutocomplete.getPlace()) {
+                calculateRoute();
+            }
+        });
+
+        // 当输入目的地时，自动标记在地图上并绘制路线
+        destinationAutocomplete.addListener('place_changed', function() {
+            const place = destinationAutocomplete.getPlace();
+            if (!place.geometry) {
+                console.error('目的地のジオメトリを取得できません');
+                return;
+            }
+            if (destinationMarker) {
+                destinationMarker.setMap(null);
+            }
+            destinationMarker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: "目的地",
+                label: "目的地"
+            });
+            map.setCenter(place.geometry.location);
+            map.setZoom(10);  // 放大到该地区
+            // 如果已经输入了出发地，连出路线
+            if (originAutocomplete.getPlace()) {
+                calculateRoute();
+            }
+        });
+    }
+
+    function calculateRoute() {
+		console.log('calculateRoute规划路线')
+        const originPlace = originAutocomplete.getPlace();
+        const destinationPlace = destinationAutocomplete.getPlace();
+
+        const request = {
+            origin: originPlace.geometry.location,
+            destination: destinationPlace.geometry.location,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function(result, status) {
+            if (status === 'OK') {
+                directionsRenderer.setDirections(result);
+
+                // 获取路线的总长度和高速路段的长度
+                const route = result.routes[0].legs[0];
+                const totalDistanceInKm = route.distance.value / 1000;  // 总长度，公里
+                let highwayDistance = 0;
+
+                // 遍历steps以计算高速路段长度
+                route.steps.forEach((step) => {
+                    if (step.instructions.toLowerCase().includes("高速道路") || step.instructions.toLowerCase().includes("高速")) {
+                        highwayDistance += step.distance.value / 1000;  // 累积高速路段的长度
+                    }
+                });
+
+                // 打印结果
+                console.log('路線距離:', totalDistanceInKm + ' km');
+                console.log('高速路線距離:', highwayDistance + ' km');
+            } else {
+                console.error('ルートが見つかりません:', status);
+            }
+        });
+    }
+
+    window.onload = initializeMap;
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "login",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "register",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/login/bindPhone",
+			"style": {
+				"navigationBarTitleText": "bindPhone",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/IndexLise/IndexLise",
+			"style": {
+				"navigationBarTitleText": "IndexLise",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/IndexLise/ListDetails",
+			"style": {
+				"navigationBarTitleText": "ListDetails",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/userList/userList",
+			"style": {
+				"navigationBarTitleText": "userList",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/userList/userDetails",
+			"style": {
+				"navigationBarTitleText": "userDetails",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/PersonalInformation/PersonalInformation",
+			"style": {
+				"navigationBarTitleText": "PersonalInformation",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/briefintroduction/briefintroduction",
+			"style": {
+				"navigationBarTitleText": "briefintroduction",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/WritetoList/WritetoList",
+			"style": {
+				"navigationBarTitleText": "WritetoList",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/Addride/Addride",
+			"style": {
+				"navigationBarTitleText": "Addride",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/Addride/AddrideEdit",
+			"style": {
+				"navigationBarTitleText": "AddrideEdit",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/RequestList/RequestList",
+			"style": {
+				"navigationBarTitleText": "RequestList",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/briefIntroductionTop/briefIntroductionTop",
+			"style": {
+				"navigationBarTitleText": "briefIntroductionTop",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/VehicleRegistration/VehicleRegistration",
+			"style": {
+				"navigationBarTitleText": "VehicleRegistration",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/payment/payment",
+			"style": {
+				"navigationBarTitleText": "payment",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/news/news",
+			"style": {
+				"navigationBarTitleText": "news",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/index/evaluate/evaluate",
+			"style": {
+				"navigationBarTitleText": "evaluate",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	    ,{
+            "path" : "pages/index/Addride/ditu/ditu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "ditu",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/agreement/agreement",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "agreement",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "拼车",
+		"navigationStyle": "custom",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

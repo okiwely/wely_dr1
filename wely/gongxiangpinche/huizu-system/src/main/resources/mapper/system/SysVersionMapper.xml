@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.system.mapper.SysVersionMapper">
+
+    <resultMap type="SysVersion" id="SysVersionResult">
+        <result property="id"    column="id"    />
+        <result property="storeType"    column="store_type"    />
+        <result property="systemType"    column="system_type"    />
+        <result property="resUrl"    column="res_url"    />
+        <result property="versionCode"    column="version_code"    />
+        <result property="versionName"    column="version_name"    />
+        <result property="content"    column="content"    />
+        <result property="upFlag"    column="up_flag"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+
+    <sql id="selectSysVersionVo">
+        select a.id, a.store_type, a.system_type, a.res_url, a.version_code, a.version_name, a.content, a.up_flag, a.description, a.status, a.create_time, a.update_time, a.del_flag
+        from sys_version a
+    </sql>
+
+    <select id="selectSysVersionList" parameterType="SysVersion" resultMap="SysVersionResult">
+        <include refid="selectSysVersionVo"/>
+        <where>
+            <if test="storeType != null  and storeType != ''"> and a.store_type = #{storeType}</if>
+            <if test="systemType != null  and systemType != ''"> and a.system_type = #{systemType}</if>
+            <if test="resUrl != null  and resUrl != ''"> and a.res_url = #{resUrl}</if>
+            <if test="versionCode != null  and versionCode != ''"> and a.version_code = #{versionCode}</if>
+            <if test="versionName != null  and versionName != ''"> and a.version_name like concat('%', #{versionName}, '%')</if>
+            <if test="content != null  and content != ''"> and a.content = #{content}</if>
+            <if test="upFlag != null  and upFlag != ''"> and a.up_flag = #{upFlag}</if>
+            <if test="description != null  and description != ''"> and a.description = #{description}</if>
+            <if test="status != null  and status != ''"> and a.status = #{status}</if>
+            and a.del_flag != '1'
+        </where>
+    </select>
+
+    <select id="selectSysVersionById" parameterType="Long" resultMap="SysVersionResult">
+        <include refid="selectSysVersionVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertSysVersion" parameterType="SysVersion" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_version
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeType != null">store_type,</if>
+            <if test="systemType != null">system_type,</if>
+            <if test="resUrl != null">res_url,</if>
+            <if test="versionCode != null">version_code,</if>
+            <if test="versionName != null">version_name,</if>
+            <if test="content != null">content,</if>
+            <if test="upFlag != null">up_flag,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeType != null">#{storeType},</if>
+            <if test="systemType != null">#{systemType},</if>
+            <if test="resUrl != null">#{resUrl},</if>
+            <if test="versionCode != null">#{versionCode},</if>
+            <if test="versionName != null">#{versionName},</if>
+            <if test="content != null">#{content},</if>
+            <if test="upFlag != null">#{upFlag},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysVersion" parameterType="SysVersion">
+        update sys_version
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="storeType != null">store_type = #{storeType},</if>
+            <if test="systemType != null">system_type = #{systemType},</if>
+            <if test="resUrl != null">res_url = #{resUrl},</if>
+            <if test="versionCode != null">version_code = #{versionCode},</if>
+            <if test="versionName != null">version_name = #{versionName},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="upFlag != null">up_flag = #{upFlag},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysVersionById" parameterType="Long">
+        update sys_version set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteSysVersionByIds" parameterType="String">
+        update sys_version set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getSysVersionVo">
+        select
+                a.id as id,
+                a.store_type as storeType,
+                a.system_type as systemType,
+                a.res_url as resUrl,
+                a.version_code as versionCode,
+                a.version_name as versionName,
+                a.content as content,
+                a.up_flag as upFlag,
+                a.description as description,
+                a.status as status,
+                a.create_time as createTime,
+                a.update_time as updateTime,
+                a.del_flag as delFlag
+        from sys_version a
+    </sql>
+
+    <select id="getSysVersionList" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        <include refid="getSysVersionVo"/>
+        <where>
+                        <if test="storeType != null  and storeType != ''"> and a.store_type = #{storeType}</if>
+                        <if test="systemType != null  and systemType != ''"> and a.system_type = #{systemType}</if>
+                        <if test="resUrl != null  and resUrl != ''"> and a.res_url = #{resUrl}</if>
+                        <if test="versionCode != null  and versionCode != ''"> and a.version_code = #{versionCode}</if>
+                        <if test="versionName != null  and versionName != ''"> and a.version_name like concat('%', #{versionName}, '%')</if>
+                        <if test="content != null  and content != ''"> and a.content = #{content}</if>
+                        <if test="upFlag != null  and upFlag != ''"> and a.up_flag = #{upFlag}</if>
+                        <if test="description != null  and description != ''"> and a.description = #{description}</if>
+                        <if test="status != null  and status != ''"> and a.status = #{status}</if>
+            and a.del_flag != '1'
+        </where>
+    </select>
+
+    <select id="getSysVersion" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+            <include refid="getSysVersionVo"/>
+            where a.id = #{id}
+    </select>
+
+    <insert id="addSysVersion" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_version
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="storeType != null">store_type,</if>
+                    <if test="systemType != null">system_type,</if>
+                    <if test="resUrl != null">res_url,</if>
+                    <if test="versionCode != null">version_code,</if>
+                    <if test="versionName != null">version_name,</if>
+                    <if test="content != null">content,</if>
+                    <if test="upFlag != null">up_flag,</if>
+                    <if test="description != null">description,</if>
+                    <if test="status != null">status,</if>
+                    <if test="createTime != null">create_time,</if>
+                    <if test="updateTime != null">update_time,</if>
+                    <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="storeType != null">#{storeType},</if>
+                    <if test="systemType != null">#{systemType},</if>
+                    <if test="resUrl != null">#{resUrl},</if>
+                    <if test="versionCode != null">#{versionCode},</if>
+                    <if test="versionName != null">#{versionName},</if>
+                    <if test="content != null">#{content},</if>
+                    <if test="upFlag != null">#{upFlag},</if>
+                    <if test="description != null">#{description},</if>
+                    <if test="status != null">#{status},</if>
+                    <if test="createTime != null">#{createTime},</if>
+                    <if test="updateTime != null">#{updateTime},</if>
+                    <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="editSysVersion" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_version
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="storeType != null">store_type = #{storeType},</if>
+                    <if test="systemType != null">system_type = #{systemType},</if>
+                    <if test="resUrl != null">res_url = #{resUrl},</if>
+                    <if test="versionCode != null">version_code = #{versionCode},</if>
+                    <if test="versionName != null">version_name = #{versionName},</if>
+                    <if test="content != null">content = #{content},</if>
+                    <if test="upFlag != null">up_flag = #{upFlag},</if>
+                    <if test="description != null">description = #{description},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysVersions" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_version set del_flag = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSysVersion" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_version set del_flag = '1' where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,2894 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huizu.api.mapper.ApiMapper">
+
+    <select id="getCustomerInfo" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        /*concat(phone, if (`type` = 1, '（会员）', '（讲师）')) as cloudId,
+        admin_id as adminId,
+        live_id as liveId,*/
+        if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+        if(`name` is null, '默认用户', `name`) as `name`,
+        /*if(jim_name is null, '', jim_name) as jimName,
+        if(sex is null, 0, sex) as sex,
+        if(age is null, 0, age) as age,
+        height,
+        weight,
+        email,
+        bank,*/
+        phone,
+        /*province,
+        province_code as provinceCode,
+        city,
+        city_code as cityCode,
+        area,
+        area_code as areaCode,*/
+        address,
+        /*content,*/
+        password,
+        /*date_format(start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+        date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+        open_flag as openFlag,
+        status,*/
+        bond,
+        bond_flag as bondFlag,
+        bond_file as bondFile,
+        contract_flag as contractFlag,
+        promoter_flag as promoterFlag,
+        qrcode,
+        date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime,
+        /*remark,
+        `type`,
+        push_url as pushUrl,
+        code,
+        qrcode,
+        pro_code as proCode,*/
+        money,
+        if (integral is null, 0, integral) as integral,
+        /*watch_flag as watchFlag,
+        current_address as currentAddress,*/
+        open_id as openId
+        from pro_customer
+        <where>
+            `type` = #{type}
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                and id = #{customerId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCustomerInfoByPhone" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+            /*concat(phone, if (`type` = 1, '（会员）', '（讲师）')) as cloudId,
+            admin_id as adminId,
+            live_id as liveId,*/
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '默认用户', `name`)                                                      as `name`,
+            /*if(jim_name is null, '', jim_name) as jimName,
+            if(sex is null, 0, sex) as sex,
+            if(age is null, 0, age) as age,
+            height,
+            weight,
+            email,
+            bank,*/
+               phone,
+            /*province,
+            province_code as provinceCode,
+            city,
+            city_code as cityCode,
+            area,
+            area_code as areaCode,*/
+               address,
+            /*content,*/
+               password,
+               bond,
+               bond_flag                                                                                   as bondFlag,
+               bond_file                                                                                   as bondFile,
+               contract_flag                                                                               as contractFlag,
+               qrcode,
+            /*date_format(start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            open_flag as openFlag,
+            status,*/
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime,
+            /*remark,
+        `type`,
+        push_url as pushUrl,
+        code,
+        qrcode,
+        pro_code as proCode,*/
+               money,
+               if(integral is null, 0, integral)                                                           as integral,
+            /*watch_flag as watchFlag,
+            current_address as currentAddress,*/
+               open_id                                                                                     as openId
+        from pro_customer
+        where phone = #{phone}
+    </select>
+
+    <select id="getCustomerInfoByPhone2" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+            /*concat(phone, if (`type` = 1, '（会员）', '（讲师）')) as cloudId,
+            admin_id as adminId,
+            live_id as liveId,*/
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '默认用户', `name`)                                                      as `name`,
+            /*if(jim_name is null, '', jim_name) as jimName,
+            if(sex is null, 0, sex) as sex,
+            if(age is null, 0, age) as age,
+            height,
+            weight,
+            email,
+            bank,*/
+               phone,
+            /*province,
+            province_code as provinceCode,
+            city,
+            city_code as cityCode,
+            area,
+            area_code as areaCode,*/
+               address,
+            /*content,*/
+               password,
+               bond,
+               bond_flag                                                                                   as bondFlag,
+               bond_file                                                                                   as bondFile,
+               contract_flag                                                                               as contractFlag,
+               promoter_flag                                                                               as promoterFlag,
+               qrcode,
+            /*date_format(start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            open_flag as openFlag,
+            status,*/
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime,
+            /*remark,
+        `type`,
+        push_url as pushUrl,
+        code,
+        qrcode,
+        pro_code as proCode,*/
+               money,
+               if(integral is null, 0, integral)                                                           as integral,
+            /*watch_flag as watchFlag,
+            current_address as currentAddress,*/
+               open_id                                                                                     as openId
+        from pro_customer
+        where phone = #{phone}
+          and `type` = 1
+    </select>
+
+    <select id="getCustomerInfoById" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+            /*concat(phone, if (`type` = 1, '（会员）', '（讲师）')) as cloudId,
+            admin_id as adminId,
+            live_id as liveId,*/
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '默认用户', `name`)                                                      as `name`,
+               `type`,
+            /*if(jim_name is null, '', jim_name) as jimName,
+            if(sex is null, 0, sex) as sex,
+            if(age is null, 0, age) as age,
+            height,
+            weight,
+            email,
+            bank,*/
+               if(phone is null, '暂未绑定手机', phone)                                                    as phone,
+            /*province,
+            province_code as provinceCode,
+            city,
+            city_code as cityCode,
+            area,
+            area_code as areaCode,*/
+               address,
+            /*content,*/
+               password,
+               bond,
+               bond_flag                                                                                   as bondFlag,
+               bond_file                                                                                   as bondFile,
+               contract_flag                                                                               as contractFlag,
+               promoter_flag                                                                               as promoterFlag,
+               qrcode,
+            /*date_format(start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            open_flag as openFlag,
+            status,*/
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime,
+            /*remark,
+        `type`,
+        push_url as pushUrl,
+        code,
+        qrcode,
+        pro_code as proCode,*/
+               money,
+               if(integral is null, 0, integral)                                                           as integral,
+            /*watch_flag as watchFlag,
+            current_address as currentAddress,*/
+               open_id                                                                                     as openId,
+               is_auth as isAuth
+        from pro_customer
+        where id = #{customerId}
+    </select>
+
+    <select id="getCustomerInfoByOpenId" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+            /*concat(phone, if (`type` = 1, '（会员）', '（讲师）')) as cloudId,
+            admin_id as adminId,
+            live_id as liveId,*/
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '默认用户', `name`)                                                      as `name`,
+            /*if(jim_name is null, '', jim_name) as jimName,
+            if(sex is null, 0, sex) as sex,
+            if(age is null, 0, age) as age,
+            height,
+            weight,
+            email,
+            bank,*/
+               if(phone is null, '暂未绑定手机', phone)                                                    as phone,
+            /*province,
+            province_code as provinceCode,
+            city,
+            city_code as cityCode,
+            area,
+            area_code as areaCode,*/
+               address,
+            /*content,*/
+               password,
+               bond,
+               bond_flag                                                                                   as bondFlag,
+               bond_file                                                                                   as bondFile,
+               contract_flag                                                                               as contractFlag,
+               promoter_flag                                                                               as promoterFlag,
+               qrcode,
+            /*date_format(start_time, '%Y-%m-%d %H:%i:%s') as startTime,
+            date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime,
+            open_flag as openFlag,
+            status,*/
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime,
+            /*remark,
+        `type`,
+        push_url as pushUrl,
+        code,
+        qrcode,
+        pro_code as proCode,*/
+               money,
+               if(integral is null, 0, integral)                                                           as integral,
+            /*watch_flag as watchFlag,
+            current_address as currentAddress,*/
+               open_id                                                                                     as openId
+        from pro_customer
+        where open_id = #{openId}
+    </select>
+    <select id="getCustomerService" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select id customerId,
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '默认用户', `name`)                                                      as `name`,
+               if(phone is null, '暂未绑定手机', phone)                                                    as phone,
+               money,
+               (select sum(b.money) from pro_customer_recharge b where b.customer_id = a.id) countMoney,
+               (select sum(b.money) from pro_customer_recharge b where b.customer_id = a.id and to_days(create_time) = to_days(now())) toDayMoney,
+               (select sum(b.money) from pro_customer_recharge b where b.customer_id = a.id and to_days(now()) - to_days(create_time) = 1) lastMoney,
+                qrcode
+        from pro_customer a
+        where id = #{customerId}
+    </select>
+    <select id="getSpecsCnt" parameterType="Long" resultType="int">
+        select count(id)
+        from pro_goods_specs a
+        where customer_id = #{customerId}
+    </select>
+    <select id="getCustomerShare" parameterType="com.alibaba.fastjson2.JSONObject" resultType="com.alibaba.fastjson2.JSONObject">
+        select id as customerId,
+               qrcode,
+               money,
+                (select count(id) from pro_customer a where a.pro_code = code) as `count`,
+                (select awary_money from pro_share_award where type = 1 limit 1) as awaryMoney
+        from pro_customer
+        where id = #{customerId}
+    </select>
+
+    <select id="getHotGoodsList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        `name`,
+        first_image as firstImage,
+        price,
+        cycle
+        from pro_goods
+        <where>
+            status = 1 and del_flag = 0 and is_hot = 1
+            <if test="name != null and name != ''">
+                and `name` like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by sort desc
+    </select>
+    <select id="getGoodTypeList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        `name`,
+        icon
+        from pro_goods_type
+        <where>
+            status = 1 and del_flag = 0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and `name` like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by id asc
+    </select>
+
+    <select id="getGoodTypeList2" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               `name`,
+               icon
+        from pro_goods_type
+        where pro_id = #{id}
+        order by id asc
+    </select>
+
+    <select id="getGoodInfoList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select  id,
+            `name`,
+            first_image as firstImage,
+            price,
+            cycle
+        from pro_goods a
+        <where>
+            <if test="name != null  and name != ''"> and a.name like concat('%', #{name}, '%')</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="cycle != null  and cycle != ''"> and a.cycle = #{cycle}</if>
+            <if test="typeId != null "> and a.type_id = #{typeId}</if>
+            <if test="slideshow != null  and slideshow != ''"> and a.slideshow = #{slideshow}</if>
+            <if test="totalPrice != null "> and a.total_price = #{totalPrice}</if>
+            <if test="isTryout != null  and isTryout != ''"> and a.is_tryout = #{isTryout}</if>
+            <if test="startCycle != null "> and a.start_cycle = #{startCycle}</if>
+            <if test="movePrice != null "> and a.move_price = #{movePrice}</if>
+            <if test="count != null "> and a.count = #{count}</if>
+            <if test="viewCount != null "> and a.view_count = #{viewCount}</if>
+            <if test="collectCount != null "> and a.collect_count = #{collectCount}</if>
+            <if test="detail != null  and detail != ''"> and a.detail = #{detail}</if>
+            <if test="prctureShow != null  and prctureShow != ''"> and a.prcture_show = #{prctureShow}</if>
+            <if test="rule != null  and rule != ''"> and a.rule = #{rule}</if>
+            <if test="isHot != null  and isHot != ''"> and a.is_hot = #{isHot}</if>
+            <if test="sort != null "> and a.sort = #{sort}</if>
+            <if test="status != null "> and a.status = #{status}</if>
+            and a.del_flag != '1' and a.status = '1'
+        </where>
+    </select>
+
+    <select id="getGoodInfo" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select a.id,
+               a.name,
+               a.price,
+               a.cycle,
+               a.type_id typeId,
+               a.slideshow,
+               a.total_price totalPrice,
+               a.is_tryout isTryout,
+               a.start_cycle startCycle,
+               a.move_price movePrice,
+               a.count,
+               a.view_count viewCount,
+               a.collect_count collectCount,
+               a.detail,
+               a.prcture_show prctureShow,
+               a.rule
+        from pro_goods a
+        where id = #{goodsId}
+    </select>
+    <select id="getGoodOrder" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select a.id,
+               a.name,
+               a.price,
+               a.cycle,
+               a.first_image firstImage,
+               a.is_tryout isTryout,
+               a.start_cycle startCycle,
+               a.move_price movePrice,
+               a.count,
+               a.view_count viewCount,
+               a.collect_count collectCount,
+               a.detail,
+               a.prcture_show prctureShow,
+               a.rule
+        from pro_goods a
+        where id = #{goodsId}
+    </select>
+
+    <select id="getBannerList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id, image, url
+        from sys_banner
+        where status = 1 and del_flag = 0
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+        order by id asc
+    </select>
+
+    <select id="getBannerInfo" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id, image, url
+        from sys_banner
+        where status = 1 and del_flag = 0
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+        limit 1
+    </select>
+
+    <select id="getNoticeList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select notice_id as id, notice_title as title
+        from sys_notice
+        where status = 0
+        <if test="type != null and type != ''">
+            and notice_type = #{type}
+        </if>
+        order by id desc
+    </select>
+    <select id="getNotice" parameterType="long" resultType="com.alibaba.fastjson2.JSONObject">
+        select notice_id as id,
+               notice_title as title,
+               notice_content as content,
+               slideshow
+        from sys_notice
+        where status = 0 and notice_id = #{noticeId}
+        limit 1
+    </select>
+
+    <select id="getGoodImageById" parameterType="com.alibaba.fastjson2.JSONObject" resultType="String">
+        select image
+        from pro_goods_image
+        where goods_id = #{id}
+          and `type` = #{type}
+    </select>
+
+    <select id="getGoodImagesById" parameterType="com.alibaba.fastjson2.JSONObject" resultType="String">
+        select image
+        from pro_goods_image
+        where goods_id = #{id}
+          and `type` = #{type}
+    </select>
+
+    <select id="getAddressList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        `name`,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        default_flag as defaultFlag
+        from pro_customer_address
+        where customer_id = #{customerId}
+        <if test="defaultFlag != null and defaultFlag != ''">
+            and default_flag = #{defaultFlag}
+        </if>
+        order by default_flag desc, id asc
+    </select>
+
+    <select id="getAddressInfo" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               `name`,
+               phone,
+               province,
+               city,
+               area,
+               address,
+               default_flag as defaultFlag
+        from pro_customer_address
+        where id = #{id}
+    </select>
+
+    <select id="getOrderList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        order_code as orderCode,
+        actual_price as price,
+        bond_price as bondPrice,
+        total_num as num,
+        integral,
+        order_status as orderStatus,
+        date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime
+        from pro_order_info
+        where customer_id = #{customerId}
+        and del_flag = 0
+        <if test="orderStatus != null">
+            and order_status = #{orderStatus}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getOrderInfo" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               order_type                                                                 as orderType,
+               order_code                                                                 as orderCode,
+               total_num                                                                  as totalNum,
+               actual_price                                                               as price,
+               bond_price                                                                 as bondPrice,
+               freight,
+               people,
+               phone,
+               address,
+               order_status                                                               as orderStatus,
+               lease_type                                                                 as leaseType,
+               lease_days                                                                 as leaseDays,
+               if(create_date is null, '', date_format(create_date, '%Y-%m-%d %H:%i:%s')) as createTime,
+               if(end_time is null, '', date_format(end_time, '%Y-%m-%d %H:%i:%s'))       as endTime,
+               date_format(pay_time, '%Y-%m-%d %H:%i:%s')                                 as payTime,
+               if(back_time is null, '', date_format(back_time, '%Y-%m-%d %H:%i:%s'))     as backTime,
+               open_id                                                                    as openId,
+               express_id                                                                 as expressId,
+               express_num                                                                as expressNum,
+               express_name                                                               as expressName,
+               integral,
+               customer_id                                                                as customerId,
+               pay_type                                                                   as payType
+        from pro_order_info
+        where order_code = #{orderCode}
+    </select>
+
+    <select id="getOrderInfoByWx" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               order_type                                                                 as orderType,
+               order_code                                                                 as orderCode,
+               total_num                                                                  as totalNum,
+               actual_price                                                               as price,
+               bond_price                                                                 as bondPrice,
+               freight,
+               people,
+               phone,
+               address,
+               order_status                                                               as orderStatus,
+               lease_type                                                                 as leaseType,
+               lease_days                                                                 as leaseDays,
+               if(create_date is null, '', date_format(create_date, '%Y-%m-%d %H:%i:%s')) as createTime,
+               if(end_time is null, '', date_format(end_time, '%Y-%m-%d %H:%i:%s'))       as endTime,
+               date_format(pay_time, '%Y-%m-%d %H:%i:%s')                                 as payTime,
+               if(back_time is null, '', date_format(back_time, '%Y-%m-%d %H:%i:%s'))     as backTime,
+               open_id                                                                    as openId,
+               express_id                                                                 as expressId,
+               express_num                                                                as expressNum,
+               express_name                                                               as expressName,
+               integral,
+               customer_id                                                                as customerId,
+               pay_type                                                                   as payType
+        from pro_order_info
+        where order_code = #{orderCode}
+          and order_status = 1
+    </select>
+
+    <select id="getOrderInfoById" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               order_type                                    as orderType,
+               order_code                                    as orderCode,
+               total_num                                     as totalNum,
+               actual_price                                  as price,
+               bond_price                                    as bondPrice,
+               freight,
+               people,
+               phone,
+               address,
+               order_status                                  as orderStatus,
+               lease_type                                    as leaseType,
+               lease_days                                    as leaseDays,
+               date_format(create_date, '%Y-%m-%d %H:%i:%s') as createTime,
+               date_format(end_time, '%Y-%m-%d %H:%i:%s')    as endTime,
+               date_format(pay_time, '%Y-%m-%d %H:%i:%s')    as payTime,
+               date_format(back_time, '%Y-%m-%d %H:%i:%s')   as backTime,
+               open_id                                       as openId,
+               express_id                                    as expressId,
+               express_num                                   as expressNum,
+               integral,
+               customer_id                                   as customerId,
+               pay_type                                      as payType
+        from pro_order_info
+        where id = #{id}
+    </select>
+
+    <select id="getOrderDetails" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        order_code as orderCode,
+        `type`,
+        product_id as productId,
+        `name`,
+        price,
+        cnt,
+        url,
+        specs,
+        (select pro_goods_info.remark from pro_goods_info where pro_goods_info.id = product_id) as remark,
+        date_format(create_date, '%Y-%m-%d %H:%i:%s') as createDate
+        from pro_order_detail
+        where order_code = #{orderCode}
+        <if test="type != null">
+            and `type` = #{type}
+        </if>
+        order by id asc
+    </select>
+
+    <insert id="insertCustomer" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">admin_id,</if>
+            <if test="liveId != null">live_id,</if>
+            <if test="type != null">type,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="name != null">name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="jimName != null">jim_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="age != null">age,</if>
+            <if test="workingAge != null">working_age,</if>
+            <if test="height != null">height,</if>
+            <if test="weight != null">weight,</if>
+            <if test="email != null">email,</if>
+            <if test="bank != null">bank,</if>
+            <if test="number != null">number,</if>
+            <if test="phone != null">phone,</if>
+            <if test="province != null">province,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="city != null">city,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="area != null">area,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="address != null">address,</if>
+            <if test="lonLat != null">lon_lat,</if>
+            <if test="serviceType != null">service_type,</if>
+            <if test="style != null">style,</if>
+            <if test="website != null">website,</if>
+            <if test="serviceProject != null">service_project,</if>
+            <if test="currentAddress != null">current_address,</if>
+            <if test="content != null">content,</if>
+            <if test="code != null">code,</if>
+            <if test="openId != null">open_id,</if>
+            <if test="qrcode != null">qrcode,</if>
+            <if test="proCode != null">pro_code,</if>
+            <if test="upId != null">up_id,</if>
+            <if test="money != null">money,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="integral != null">integral,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="openFlag != null">open_flag,</if>
+            <if test="watchFlag != null">watch_flag,</if>
+            <if test="pushUrl != null">push_url,</if>
+            <if test="bond != null">bond,</if>
+            <if test="bondFlag != null">bond_flag,</if>
+            <if test="contractFlag != null">contract_flag,</if>
+            <if test="bondFile != null">bond_file,</if>
+            <if test="isAuth != null">is_auth,</if>
+            <if test="promoterName != null">promoter_name,</if>
+            <if test="promoterPhone != null">promoter_phone,</if>
+            <if test="promoterNumber != null">promoter_number,</if>
+            <if test="promoterArea != null">promoter_area,</if>
+            <if test="promoterNumberZ != null">promoter_number_z,</if>
+            <if test="promoterNumberF != null">promoter_number_f,</if>
+            <if test="authTime != null">auth_time,</if>
+            <if test="audit != null">audit,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="isRealAuth != null">is_real_auth,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">#{adminId},</if>
+            <if test="liveId != null">#{liveId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="name != null">#{name},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="jimName != null">#{jimName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="age != null">#{age},</if>
+            <if test="workingAge != null">#{workingAge},</if>
+            <if test="height != null">#{height},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bank != null">#{bank},</if>
+            <if test="number != null">#{number},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="province != null">#{province},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="city != null">#{city},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="area != null">#{area},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="lonLat != null">#{lonLat},</if>
+            <if test="serviceType != null">#{serviceType},</if>
+            <if test="style != null">#{style},</if>
+            <if test="website != null">#{website},</if>
+            <if test="serviceProject != null">#{serviceProject},</if>
+            <if test="currentAddress != null">#{currentAddress},</if>
+            <if test="content != null">#{content},</if>
+            <if test="code != null">#{code},</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="qrcode != null">#{qrcode},</if>
+            <if test="proCode != null">#{proCode},</if>
+            <if test="upId != null">#{upId},</if>
+            <if test="money != null">#{money},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="openFlag != null">#{openFlag},</if>
+            <if test="watchFlag != null">#{watchFlag},</if>
+            <if test="pushUrl != null">#{pushUrl},</if>
+            <if test="bond != null">#{bond},</if>
+            <if test="bondFlag != null">#{bondFlag},</if>
+            <if test="contractFlag != null">#{contractFlag},</if>
+            <if test="bondFile != null">#{bondFile},</if>
+            <if test="isAuth != null">#{isAuth},</if>
+            <if test="promoterName != null">#{promoterName},</if>
+            <if test="promoterPhone != null">#{promoterPhone},</if>
+            <if test="promoterNumber != null">#{promoterNumber},</if>
+            <if test="promoterArea != null">#{promoterArea},</if>
+            <if test="promoterNumberZ != null">#{promoterNumberZ},</if>
+            <if test="promoterNumberF != null">#{promoterNumberF},</if>
+            <if test="authTime != null">#{authTime},</if>
+            <if test="audit != null">#{audit},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="isRealAuth != null">#{isRealAuth},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertAddress" parameterType="com.alibaba.fastjson2.JSONObject" keyProperty="id" useGeneratedKeys="true">
+        insert into pro_customer_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="defaultFlag != null">
+                default_flag,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="province != null">
+                #{province},
+            </if>
+            <if test="city != null">
+                #{city},
+            </if>
+            <if test="area != null">
+                #{area},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="defaultFlag != null">
+                #{defaultFlag},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertOrder" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="groupCode != null">
+                group_code,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="totalNum != null">
+                total_num,
+            </if>
+            <if test="totalPrice != null">
+                total_price,
+            </if>
+            <if test="discountPrice != null">
+                discount_price,
+            </if>
+            <if test="actualPrice != null">
+                actual_price,
+            </if>
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="integral != null">
+                integral,
+            </if>
+            <if test="packageId != null">
+                package_id,
+            </if>
+            <if test="sendTime != null">
+                send_time,
+            </if>
+            <if test="sendCnt != null">
+                send_cnt,
+            </if>
+            <if test="freight != null">
+                freight,
+            </if>
+            <if test="people != null">
+                people,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="payTime != null">
+                pay_time,
+            </if>
+            <if test="pushPeople != null">
+                push_people,
+            </if>
+            <if test="expressName != null">
+                express_name,
+            </if>
+            <if test="expressNum != null">
+                express_num,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="takeType != null">
+                take_type,
+            </if>
+            <if test="storehouse != null">
+                storehouse,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="leaseType != null">
+                lease_type,
+            </if>
+            <if test="leaseDays != null">
+                lease_days,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="bondPrice != null">
+                bond_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="openId != null">
+                #{openId},
+            </if>
+            <if test="orderType != null">
+                #{orderType},
+            </if>
+            <if test="groupCode != null">
+                #{groupCode},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="cardId != null">
+                #{cardId},
+            </if>
+            <if test="totalNum != null">
+                #{totalNum},
+            </if>
+            <if test="totalPrice != null">
+                #{totalPrice},
+            </if>
+            <if test="discountPrice != null">
+                #{discountPrice},
+            </if>
+            <if test="actualPrice != null">
+                #{actualPrice},
+            </if>
+            <if test="couponId != null">
+                #{couponId},
+            </if>
+            <if test="integral != null">
+                #{integral},
+            </if>
+            <if test="packageId != null">
+                #{packageId},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime},
+            </if>
+            <if test="sendCnt != null">
+                #{sendCnt},
+            </if>
+            <if test="freight != null">
+                #{freight},
+            </if>
+            <if test="people != null">
+                #{people},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="payType != null">
+                #{payType},
+            </if>
+            <if test="payTime != null">
+                #{payTime},
+            </if>
+            <if test="pushPeople != null">
+                #{pushPeople},
+            </if>
+            <if test="expressName != null">
+                #{expressName},
+            </if>
+            <if test="expressNum != null">
+                #{expressNum},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus},
+            </if>
+            <if test="takeType != null">
+                #{takeType},
+            </if>
+            <if test="storehouse != null">
+                #{storehouse},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="leaseType != null">
+                #{leaseType},
+            </if>
+            <if test="leaseDays != null">
+                #{leaseDays},
+            </if>
+            <if test="endTime != null">
+                #{endTime},
+            </if>
+            <if test="bondPrice != null">
+                #{bondPrice},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertOrderDetail" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="id != null">
+                car_id,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="cnt != null">
+                cnt,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="specs != null">
+                specs,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="cnt != null">
+                #{cnt},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+            <if test="specs != null">
+                #{specs},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateCustomer" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adminId != null">admin_id = #{adminId},</if>
+            <if test="liveId != null">live_id = #{liveId},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="jimName != null">jim_name = #{jimName},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="bank != null">bank = #{bank},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="freightId != null">freight_id = #{freightId},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="currentAddress != null">current_address = #{currentAddress},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="qrcode != null">qrcode = #{qrcode},</if>
+            <if test="proCode != null">pro_code = #{proCode},</if>
+            <if test="upId != null">up_id = #{upId},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="integral != null">integral = #{integral},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="openFlag != null">open_flag = #{openFlag},</if>
+            <if test="watchFlag != null">watch_flag = #{watchFlag},</if>
+            <if test="pushUrl != null">push_url = #{pushUrl},</if>
+            <if test="bond != null">bond = #{bond},</if>
+            <if test="bondFlag != null">bond_flag = #{bondFlag},</if>
+            <if test="contractFlag != null">contract_flag = #{contractFlag},</if>
+            <if test="bondFile != null">bond_file = #{bondFile},</if>
+            <if test="promoterName != null">promoter_name = #{promoterName},</if>
+            <if test="promoterPhone != null">promoter_phone = #{promoterPhone},</if>
+            <if test="numberZ != null">number_z = #{numberZ},</if>
+            <if test="numberF != null">number_f = #{numberF},</if>
+            <if test="isAuth != null">is_auth = #{isAuth},</if>
+            <if test="business != null">business = #{business},</if>
+            <if test="audit != null">audit = #{audit},</if>
+            <if test="promoterFlag != null">promoter_flag = #{promoterFlag},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{customerId}
+    </update>
+
+    <update id="updateCustomerPassword" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where phone = #{phone}
+    </update>
+
+    <update id="updateCustomerPasswordById" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where id = #{customerId}
+    </update>
+
+    <update id="updateAddressDefaultFlag" parameterType="Long">
+        update pro_customer_address
+        set default_flag = 0
+        where customer_id = #{customerId}
+    </update>
+
+    <update id="updateAddress" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="area != null">
+                area = #{area},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="defaultFlag != null">
+                default_flag = #{defaultFlag},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="removeAddress" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete
+        from pro_customer_address
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteOrder" parameterType="String">
+        delete
+        from pro_order_info
+        where order_code = #{orderCode}
+    </delete>
+
+    <delete id="deleteOrderDetail" parameterType="String">
+        delete
+        from pro_order_detail
+        where order_code = #{orderCode}
+    </delete>
+
+    <update id="updateOrderStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set order_status = #{orderStatus}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateOrderStatus2" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set express_status = #{status},
+            start_time     = #{startTime},
+            end_time       = #{endTime},
+            order_status   = #{orderStatus}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateOrderStatus3" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set end_time     = end_time2,
+            order_status = #{orderStatus}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateOrderCode" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set order_code = #{code}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateOrderEndTime" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set lease_days   = (lease_days + #{leaseDays}),
+            end_time2    = #{endTime},
+            actual_price = #{actualPrice}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateOrderDetailCode" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_detail
+        set order_code = #{code}
+        where order_code = #{orderCode}
+    </update>
+
+    <!-- TODO 工具模块 -->
+
+    <update id="updatePricePool" parameterType="com.alibaba.fastjson2.JSONObject">
+        update sys_price
+        set today_price  = (today_price + #{price}),
+            month_price  = (month_price + #{price}),
+            price        = (price + #{price}),
+            today_amount = (today_amount + #{money}),
+            month_amount = (month_amount + #{money}),
+            amount       = (amount + #{money})
+    </update>
+
+    <select id="getShareInfo" resultType="com.alibaba.fastjson2.JSONObject">
+        select vip
+        from sys_share
+    </select>
+
+    <select id="getUpId" parameterType="Long" resultType="java.lang.Long">
+        select up_id
+        from pro_customer
+        where id = #{id}
+    </select>
+
+    <select id="getCustomerIdByCode" parameterType="String" resultType="Long">
+        select id
+        from pro_customer
+        where code = #{proCode}
+    </select>
+
+    <select id="getFansList" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '', `name`)                                                              as `name`,
+               money,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime
+        from pro_customer
+        where up_id = #{customerId}
+    </select>
+
+    <select id="getTwoFansList" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar) as avatar,
+               if(`name` is null, '', `name`)                                                              as `name`,
+               money,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')                                               as createTime
+        from pro_customer
+        where up_id in (select id
+                        from pro_customer
+                        where up_id = #{customerId})
+    </select>
+
+    <update id="updateCustomerMoney" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set money = (money + #{money})
+        where id = #{customerId}
+    </update>
+
+    <update id="updateOrderCar" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_car
+        set package_id  = #{packageId},
+            goods_id    = #{goodsId},
+            goods_name  = #{goodsName},
+            goods_cnt   = #{goodsCnt},
+            goods_price = #{goodsPrice},
+            goods_total = #{goodsTotal},
+            goods_image = #{goodsImage},
+            specs       = #{specs}
+        where id = #{id}
+    </update>
+
+    <update id="updateOrder" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="expressId != null">
+                express_id = #{expressId},
+            </if>
+            <if test="expressName != null">
+                express_name = #{expressName},
+            </if>
+            <if test="expressNum != null">
+                express_num = #{expressNum},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="backTime != null">
+                back_time = #{backTime},
+            </if>
+        </trim>
+        where order_code = #{orderCode}
+    </update>
+
+    <insert id="insertShareLog" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_share_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                customer_id,
+            </if>
+            <if test="lowId != null">
+                low_id,
+            </if>
+            <if test="money != null">
+                price,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="lowId != null">
+                #{lowId},
+            </if>
+            <if test="money != null">
+                #{money},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertOrderCar" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_order_car (customer_id, order_code, package_id, goods_id, goods_name, goods_cnt, goods_price,
+        goods_total,
+        goods_image,
+        specs, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{customerId}, #{orderCode}, #{item.packageId}, #{item.goodsId}, #{item.goodsName}, #{item.goodsCnt},
+            #{item.goodsPrice},
+            #{item.goodsTotal},
+            #{item.goodsImage}, #{item.specs},
+            #{createTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertEvaluate" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_order_evaluate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="image != null">
+                image,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="score != null">
+                #{score},
+            </if>
+            <if test="image != null">
+                #{image},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getVersion" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               store_type,
+               system_type,
+               res_url,
+               version_code,
+               version_name,
+               content,
+               up_flag,
+               description,
+               create_time,
+               update_time,
+               del_flag
+        from sys_version
+        where del_flag = 0
+    </select>
+
+    <select id="getShareList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select low_id                                                      as lowId,
+               (select pc.phone from pro_customer pc where pc.id = low_id) as lowName,
+               price,
+               case `type`
+                   when '1' then '会员卡'
+                   when '2' then '课程'
+                   when '3' then '商城'
+                   end                                                        `type`,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s')               as createTime
+        from pro_share_log
+        where customer_id = #{customerId}
+        order by create_time desc
+    </select>
+
+    <select id="getGoodSpecsByGoodsId" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               model,
+               specs,
+               goods_price goodsPrice ,
+               goods_stock goodsStock,
+               goods_money goodsMoney
+        from pro_goods_specs
+        where goods_id = #{goodsId}
+    </select>
+
+    <select id="getGoodSpecsById" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               model,
+               specs,
+               goods_price goodsPrice ,
+               goods_stock goodsStock,
+               goods_money goodsMoney
+        from pro_goods_specs
+        where id = #{id}
+    </select>
+
+    <select id="getOrderCarListById" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               customer_id                                   as customerId,
+               order_code                                    as orderCode,
+               package_id                                    as packageId,
+               goods_id                                      as goodsId,
+               goods_name                                    as goodsName,
+               goods_cnt                                     as goodsCnt,
+               goods_price                                   as goodsPrice,
+               goods_total                                   as goodsTotal,
+               goods_image                                   as goodsImage,
+               specs,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_order_car
+        where customer_id = #{customerId}
+    </select>
+
+    <delete id="removeOrderCar" parameterType="Long">
+        delete
+        from pro_order_car
+        where customer_id = #{id}
+    </delete>
+
+    <delete id="removeOrderCarByIds" parameterType="Long">
+        delete
+        from pro_order_car
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteOrderCar" parameterType="Long">
+        delete
+        from pro_order_car
+        where id = #{id}
+    </delete>
+
+    <select id="getExpressById" parameterType="Long" resultType="com.huizu.api.domain.JoggleExpress">
+        select title, code
+        from pro_express
+        where id = #{id}
+          and status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getEvaluateList" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+        order_code as orderCode,
+        customer_id as customerId,
+        (select `name` from pro_customer where id = customer_id) as customerName,
+        (select if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar)
+        from pro_customer
+        where id = customer_id) as avatar,
+        score,
+        image,
+        content,
+        date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_order_evaluate
+        where order_code in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getServiceInfo" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               `name`,
+               icon,
+               send,
+               price,
+               `time`,
+               content
+        from pro_service
+        where id = #{id}
+    </select>
+
+    <select id="getBond" resultType="com.alibaba.fastjson2.JSONObject">
+        select price
+        from sys_bond
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getConceal" resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from sys_conceal
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getAgreement" resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from sys_agreement
+        where status = 1
+          and del_flag = 0
+        <if test="type != null and type != ''"> and `type` = #{type}</if>
+    </select>
+
+    <select id="getWe" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,name,image, address, content
+        from sys_we
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getService" resultType="com.alibaba.fastjson2.JSONObject">
+        select phone,image
+        from sys_service
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <insert id="insertIdea" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into sys_idea
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="images != null">
+                images,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="images != null">
+                #{images},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getCollectGoodCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_customer_collect
+        where customer_id = #{customerId}
+          and goods_id = #{goodsId}
+    </select>
+
+    <insert id="insertCollectGood" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteCollectGood" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete
+        from pro_customer_collect
+        where customer_id = #{customerId}
+          and goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteFriendsCut" parameterType="com.alibaba.fastjson2.JSONObject">
+        delete
+        from pro_order_cut
+        where customer_id = #{customerId}
+          and goods_id = #{goodsId}
+          and status = 0
+    </delete>
+
+    <delete id="removeOrder" parameterType="String">
+        delete
+        from pro_order_info
+        where order_code = #{orderCode}
+    </delete>
+
+    <select id="getCollectGoodList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select a.goods_id                                                                                     as goodsId,
+               b.name,
+               b.first_image as firstImage,
+               b.price,
+               b.cycle
+        from pro_customer_collect a
+                 inner join pro_goods b
+                            on a.goods_id = b.id
+        where a.customer_id = #{customerId}
+        order by a.id desc
+    </select>
+
+    <select id="getExchangeGoodList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select od.product_id as productId,
+               od.name,
+               od.price      as integral,
+               od.cnt,
+               od.url
+        from pro_order_info oi
+                 inner join pro_order_detail od
+                            on oi.order_code = od.order_code
+        where oi.order_type = 3
+          and oi.order_status in (2, 3, 4)
+          and oi.customer_id = #{customerId}
+        order by oi.create_date desc
+    </select>
+
+    <select id="getExchangeLogList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select if(order_type = 3, 1, 2)                      as type,
+               actual_price                                  as integral,
+               date_format(create_date, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_order_info
+        where order_status in (2, 3, 4)
+          and customer_id = #{customerId}
+        order by create_date desc
+    </select>
+
+    <select id="getRechargeLogList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               customer_id                                   as customerId,
+               order_code                                    as orderCode,
+               money,
+               pay_type                                      as payType,
+               date_format(pay_time, '%Y-%m-%d %H:%i:%s')    as payTime,
+               status,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_customer_recharge
+        where status = 1
+          and customer_id = #{customerId}
+        order by pay_time asc
+    </select>
+
+    <select id="getFootprintList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select cf.id,
+               cf.customer_id                                   as customerId,
+               cf.goods_id                                      as goodsId,
+               date_format(cf.create_time, '%Y-%m-%d %H:%i:%s') as createTime,
+               gi.name,
+               gi.price,
+               img.image
+        from pro_customer_footprint cf
+                 inner join pro_goods_info gi on cf.goods_id = gi.id
+                 inner join pro_goods_image img on cf.goods_id = img.goods_id and `type` = 1
+        where cf.customer_id = #{customerId}
+        order by cf.create_time desc
+    </select>
+
+    <update id="updateOrderIntegral" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set integral = (integral - #{integral})
+        where id = #{id}
+    </update>
+
+    <insert id="insertRechargeLog" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_recharge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="money != null">
+                #{money},
+            </if>
+            <if test="payType != null">
+                #{payType},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertFootprint" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_footprint
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertWinGoodsInfo" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_marketing_turntable_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsIntegral != null">
+                goods_integral,
+            </if>
+            <if test="goodsImage != null">
+                goods_image,
+            </if>
+            <if test="exchangeFlag != null">
+                exchange_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName},
+            </if>
+            <if test="goodsIntegral != null">
+                #{goodsIntegral},
+            </if>
+            <if test="goodsImage != null">
+                #{goodsImage},
+            </if>
+            <if test="exchangeFlag != null">
+                #{exchangeFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="addGroup" parameterType="com.alibaba.fastjson2.JSONObject" useGeneratedKeys="true" keyProperty="id">
+        insert into pro_order_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupCode != null">
+                group_code,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="groupFlag != null">
+                group_flag,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupCode != null">
+                #{groupCode},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="groupFlag != null">
+                #{groupFlag},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertFriendsCut" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_order_cut
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="cutId != null">
+                cut_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="cutId != null">
+                #{cutId},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertCoupon" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="useStatus != null">
+                use_status,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="couponId != null">
+                #{couponId},
+            </if>
+            <if test="useStatus != null">
+                #{useStatus},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertCustomerSign" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_sign
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="payTime != null">
+                pay_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="money != null">
+                #{money},
+            </if>
+            <if test="payType != null">
+                #{payType},
+            </if>
+            <if test="payTime != null">
+                #{payTime},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertCustomerPromoter" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_promoter_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="promoterFlag != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="promoterFlag != null">
+                #{promoterFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRechargeStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer_recharge
+        set status   = #{status},
+            pay_time = #{payTime}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateFootprint" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer_footprint
+        set create_time = #{createTime}
+        where customer_id = #{customerId}
+          and goods_id = #{id}
+    </update>
+
+    <update id="updateOrderGroup" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set group_code   = #{groupCode},
+            goods_id     = #{goodsId},
+            group_status = #{groupStatus}
+        where order_code = #{orderCode}
+    </update>
+
+    <select id="getRechargeInfo" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select customer_id as customerId, money
+        from pro_customer_recharge
+        where order_code = #{orderCode}
+    </select>
+
+    <select id="getFootprintCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_customer_footprint
+        where customer_id = #{customerId}
+          and goods_id = #{goodsId}
+    </select>
+
+    <select id="getTurntableGoodsList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select goods_id as goodsId,
+               `name`   as goodsName,
+               integral as goodsIntegral,
+               image    as goodsImage,
+               `describe`,
+               probability
+        from pro_marketing_turntable_goods
+        where status = 1
+          and del_flag = 0
+        order by create_time asc
+    </select>
+
+    <select id="getTurntableRule" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from pro_marketing_turntable_rule
+        where status = 1
+          and del_flag = 0 limit 1
+    </select>
+
+    <select id="getTurntableLogList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               customer_id                                   as customerId,
+               goods_id                                      as goodsId,
+               goods_name                                    as goodsName,
+               goods_integral                                as goodsIntegral,
+               goods_image                                   as goodsImage,
+               exchange_flag                                 as exchangeFlag,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_marketing_turntable_log
+        where customer_id = #{customerId}
+        order by create_time asc
+    </select>
+
+    <select id="getGroupList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               group_code                                                                            as groupCode,
+               order_code                                                                            as orderCode,
+               customer_id                                                                           as customerId,
+               (select `name` from pro_customer where pro_customer.id = pro_order_group.customer_id) as customerName,
+               (select if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar)
+                from pro_customer
+                where pro_customer.id = pro_order_group.customer_id)                                 as avatar,
+               (select group_cnt
+                from pro_goods_info
+                where pro_goods_info.id = #{goodsId})                                                as groupCnt,
+               date_format(create_date, '%Y-%m-%d %H:%i:%s')                                         as createTime
+        from pro_order_group
+        where goods_id = #{goodsId}
+          and group_flag = 1
+          and status = 0
+    </select>
+
+    <select id="getSuccessGroupList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               group_code                                                                            as groupCode,
+               order_code                                                                            as orderCode,
+               customer_id                                                                           as customerId,
+               (select `name` from pro_customer where pro_customer.id = pro_order_group.customer_id) as customerName,
+               (select if(avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png', avatar)
+                from pro_customer
+                where pro_customer.id = pro_order_group.customer_id)                                 as avatar,
+               (select group_cnt
+                from pro_goods_info
+                where pro_goods_info.id = #{goodsId})                                                as groupCnt,
+               date_format(create_date, '%Y-%m-%d %H:%i:%s')                                         as createTime
+        from pro_order_group
+        where goods_id = #{goodsId}
+          and status = 1
+    </select>
+
+    <select id="getGoodsGruopCnt" parameterType="Long" resultType="Integer">
+        select group_cnt
+        from pro_goods_info
+        where id = #{id}
+    </select>
+
+    <select id="getGroupCnt" parameterType="String" resultType="Integer">
+        select count(id)
+        from pro_order_group
+        where group_code = #{groupCode}
+          and status = 0
+        group by group_code
+    </select>
+
+    <select id="getCutCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_order_cut
+        where status = 0
+          and customer_id = #{customerId}
+          and goods_id = #{goodsId}
+          and cut_id = #{cutId}
+    </select>
+
+    <select id="getCutCnt2" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_order_cut
+        where status = 0
+          and customer_id = #{customerId}
+    </select>
+
+    <select id="getPartakeCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_order_cut
+        where customer_id = #{customerId}
+          and goods_id = #{goodsId}
+          and status = 0
+    </select>
+
+    <select id="getCutList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select gi.id                                                                                     as id,
+               gi.name                                                                                   as name,
+               (select image from pro_goods_image where pro_goods_image.goods_id = gi.id and `type` = 1) as image
+        from pro_order_cut oc
+                 inner join pro_goods_info gi on oc.goods_id = gi.id
+        where oc.customer_id = #{customerId}
+          and oc.status = 0
+        group by oc.order_code, oc.goods_id
+    </select>
+
+    <select id="getSuccessCutList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select gi.id              as id,
+               gi.name            as name,
+               (select image
+                from pro_goods_image
+                where pro_goods_image.goods_id = gi.id
+                  and `type` = 1) as image,
+               pc.name            as customerName,
+               if(pc.avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png',
+                  pc.avatar)      as avatar
+        from pro_order_cut oc
+                 inner join pro_goods_info gi on oc.goods_id = gi.id
+                 inner join pro_customer pc on oc.cut_id = pc.id
+        where oc.goods_id = #{goodsId}
+          and oc.status = 1
+    </select>
+
+    <select id="getPartakeCutList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select gi.id              as id,
+               gi.name            as name,
+               (select image
+                from pro_goods_image
+                where pro_goods_image.goods_id = gi.id
+                  and `type` = 1) as image,
+               pc.name            as customerName,
+               if(pc.avatar is null, 'https://kafeizulinbucket.oss-cn-beijing.aliyuncs.com/1727331548819.png',
+                  pc.avatar)      as avatar
+        from pro_order_cut oc
+                 inner join pro_goods_info gi on oc.goods_id = gi.id
+                 inner join pro_customer pc on oc.cut_id = pc.id
+        where oc.customer_id = #{customerId}
+          and oc.goods_id = #{goodsId}
+          and oc.status = 0
+    </select>
+
+    <select id="getCutRule" resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from sys_cut_rule
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getInviteRule" resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from sys_invite_rule
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getBuyNotice" resultType="com.alibaba.fastjson2.JSONObject">
+        select content
+        from sys_buy
+        where status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getFreight" resultType="com.alibaba.fastjson2.JSONObject">
+        select id, adress, freight
+        from sys_freight
+        where goods_id = #{goodsId}
+    </select>
+
+    <select id="getSysCouponList" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               `name`,
+               amount,
+               limit_price                                as limitPrice,
+               description,
+               date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime
+        from sys_coupon
+        where `type` = 1
+          and status = 1
+          and del_flag = 0
+    </select>
+
+    <select id="getCouponList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select cc.id as id,
+        sc.name as `name`,
+        sc.amount as amount,
+        sc.limit_price as limitPrice,
+        sc.description as description,
+        date_format(sc.end_time, '%Y-%m-%d %H:%i') as endTime
+        from pro_customer_coupon cc
+        inner join sys_coupon sc on cc.coupon_id = sc.id
+        where cc.status = 1 and cc.del_flag = 0 and cc.customer_id = #{customerId}
+        <if test="type != null">
+            and sc.type = #{type}
+        </if>
+        <if test="useStatus != null">
+            and cc.use_status = #{useStatus}
+        </if>
+        <if test="price != null and price != '' and price != 0">
+            and sc.limit_price &lt;= #{price}
+        </if>
+    </select>
+
+    <select id="getCouponCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_customer_coupon
+        where use_status = 1
+          and status = 1
+          and del_flag = 0
+          and customer_id = #{customerId}
+    </select>
+
+    <select id="getSysCouponInfo" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               `name`,
+               amount,
+               limit_price                                as limitPrice,
+               description,
+               date_format(end_time, '%Y-%m-%d %H:%i:%s') as endTime
+        from sys_coupon
+        where id = #{couponId}
+    </select>
+
+    <select id="getOrderCodesByGoodsId" parameterType="Long" resultType="java.lang.String">
+        select order_code
+        from pro_order_detail
+        where product_id = #{goodsId}
+        order by create_date desc
+    </select>
+
+    <select id="getCustomerByGroupCode" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Long">
+        select customer_id
+        from pro_order_group
+        where group_flag = 1
+          and status = 0
+          and group_code = #{groupCode}
+    </select>
+
+    <select id="getProductStock" parameterType="Long" resultType="java.lang.Integer">
+        select stock
+        from pro_goods_info
+        where id = #{productId}
+    </select>
+
+    <select id="getProductSpecsStock" parameterType="Long" resultType="java.lang.Integer">
+        select goods_stock
+        from pro_goods_specs
+        where id = #{id}
+    </select>
+
+    <select id="getGoodsTypeIdById" parameterType="Long" resultType="java.lang.Long">
+        select id
+        from pro_goods_type
+        where pro_id = #{id}
+    </select>
+
+    <select id="getExpressList" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.huizu.api.domain.JoggleExpress">
+        select id, title, code
+        from pro_express
+        where status = 1
+        and del_flag = 0
+        <if test="name != null and name != ''">
+            and title like concat('%', #{name}, '%')
+        </if>
+    </select>
+
+    <select id="getCustomerSignInfo" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               customer_id as customerId,
+               order_code  as orderCode,
+               money
+        from pro_customer_sign
+        where order_code = #{orderCode}
+    </select>
+
+    <update id="updateGroupStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_group
+        set status = #{status}
+        where group_code = #{groupCode}
+    </update>
+
+    <update id="updateOrderGroupStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set group_status = #{status}
+        where group_code = #{groupCode}
+    </update>
+
+    <update id="updateCutStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_cut
+        set order_code = #{orderCode},
+            status     = #{status}
+        where status = 0
+          and customer_id = #{customerId}
+          and goods_id = #{goodsId}
+    </update>
+
+    <update id="updateCouponUseStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer_coupon
+        set use_status = #{useStatus}
+        where id = #{couponId}
+    </update>
+
+    <update id="updateGoodsCnt" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_goods_info
+        set cnt   = (cnt + #{cnt}),
+            stock = (stock - #{cnt})
+        where id = #{productId}
+    </update>
+
+    <update id="updateCustomerIntegral" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set integral = (integral + #{integral})
+        where id = #{customerId}
+    </update>
+
+    <update id="updateOrderReason" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_order_info
+        set reason       = #{reason},
+            order_status = #{orderStatus}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateCustomerSignStatus" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer_sign
+        set pay_time = #{payTime},
+            status   = #{status}
+        where order_code = #{orderCode}
+    </update>
+
+    <update id="updateCustomerSignFlag" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set bond      = #{money},
+            bond_flag = #{flag}
+        where id = #{customerId}
+    </update>
+
+    <update id="updateCustomerContractFlag" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set contract_flag = #{contractFlag}
+        where id = #{customerId}
+    </update>
+
+    <update id="updateCustomerMoneyPromoterFlag" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_customer
+        set promoter_flag = #{promoterFlag}
+        where id = #{customerId}
+    </update>
+
+    <insert id="insertWithdraw" parameterType="com.alibaba.fastjson2.JSONObject">
+        insert into pro_customer_withdraw
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="weixin != null">
+                weixin,
+            </if>
+            <if test="alipay != null">
+                alipay,
+            </if>
+            <if test="bankName != null">
+                bank_name,
+            </if>
+            <if test="bankCode != null">
+                bank_code,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="weixin != null">
+                #{weixin},
+            </if>
+            <if test="alipay != null">
+                #{alipay},
+            </if>
+            <if test="bankName != null">
+                #{bankName},
+            </if>
+            <if test="bankCode != null">
+                #{bankCode},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getWithdrawLog" parameterType="com.alibaba.fastjson2.JSONObject"
+            resultType="com.alibaba.fastjson2.JSONObject">
+        select id,
+               customer_id                                   as customerId,
+               price,
+               weixin,
+               alipay,
+               bank_name                                     as bankName,
+               bank_code                                     as bankCode,
+               phone,
+               status,
+               date_format(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from pro_customer_withdraw
+        where customer_id = #{customerId}
+    </select>
+
+    <select id="getDictByType" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select dict_label dictLabel, dict_value dictValue
+        from sys_dict_data
+        where status = '0' and dict_type = #{dictType} order by dict_sort asc
+    </select>
+
+    <select id="getFreightByProvince" parameterType="String" resultType="com.alibaba.fastjson2.JSONObject">
+        select id freightId,
+               freight
+        from sys_freight_province
+        where find_in_set(#{province}, province) limit 1
+    </select>
+
+    <select id="getCustomerShareCnt" parameterType="com.alibaba.fastjson2.JSONObject" resultType="java.lang.Integer">
+        select count(id)
+        from pro_share_log
+        where customerId = #{id}
+          and low_id = #{lowId}
+          and `type` = 1
+    </select>
+
+    <select id="getSharePrice" resultType="java.lang.String">
+        select vip
+        from sys_share
+    </select>
+
+    <select id="getOrderCodeList" resultType="com.alibaba.fastjson2.JSONObject">
+        select order_code   as orderCode,
+               express_id   as expressId,
+               express_name as expressName,
+               express_num  as expressNum,
+               express_time as expressTime,
+               lease_days   as leaseDays
+        from pro_order_info
+        where order_status = 3
+          and express_time is not null
+        order by id desc
+    </select>
+
+    <select id="getOrderCodeList2" resultType="com.alibaba.fastjson2.JSONObject">
+        select order_code as orderCode,
+               lease_days as leaseDays,
+               end_time   as endTime
+        from pro_order_info
+        where order_status = 4
+          and express_time is not null
+        order by id desc
+    </select>
+
+    <select id="getRepairOrderList" resultType="com.alibaba.fastjson2.JSONObject">
+        select pro_maintenance_log.id,
+        pro_maintenance_log.goods_id as goodsId,
+        pro_goods_info.name as goodsName,
+        pro_goods_info.price as goodsPrice,
+        pro_goods_info.bond_price as goodsBondPrice,
+        (select pro_goods_image.image from pro_goods_image where pro_goods_image.goods_id = pro_goods_info.id and
+        pro_goods_image.type = 1) as goodsImage,
+        pro_maintenance_log.status
+        from pro_maintenance_log
+        inner join pro_goods_info on pro_maintenance_log.goods_id = pro_goods_info.id
+        where pro_maintenance_log.customer_id = #{customerId}
+        <if test="status != null">
+            and pro_maintenance_log.status = #{status}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getRepairOrderInfo" parameterType="Long" resultType="com.alibaba.fastjson2.JSONObject">
+        select pro_maintenance_log.id,
+               pro_maintenance_log.goods_id     as goodsId,
+               pro_goods_info.name              as goodsName,
+               pro_goods_info.price             as goodsPrice,
+               pro_goods_info.bond_price        as goodsBondPrice,
+               (select pro_goods_image.image
+                from pro_goods_image
+                where pro_goods_image.goods_id = pro_goods_info.id
+                  and pro_goods_image.type = 1) as goodsImage,
+               pro_maintenance_log.status
+        from pro_maintenance_log
+                 inner join pro_goods_info on pro_maintenance_log.goods_id = pro_goods_info.id
+        where pro_maintenance_log.id = #{id}
+    </select>
+
+    <insert id="addRepairOrder" parameterType="com.alibaba.fastjson2.JSONObject" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into pro_maintenance_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRepairOrder" parameterType="com.alibaba.fastjson2.JSONObject">
+        update pro_maintenance_log
+        set status  = #{status},
+            `name`  = #{name},
+            phone   = #{phone},
+            content = #{content},
+            images  = #{images}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRepairOrder" parameterType="Long">
+        delete
+        from pro_maintenance_log
+        where id = #{id}
+    </delete>
+
+
+    <select id="getMessage" resultType="com.alibaba.fastjson2.JSONObject">
+        select a.id, a.type,a.name, a.content, customer_id customerId,create_time createTime
+        from pro_message a
+        where a.del_flag != '1' and a.status = '1' and customer_id = #{customerId}
+        order by create_time desc
+    </select>
+    <select id="getFreightById" resultType="com.alibaba.fastjson2.JSONObject">
+        select id, adress, freight
+        from sys_freight
+        where id = #{freightId}
+    </select>
+    <select id="getCustomerById" resultType="com.alibaba.fastjson2.JSONObject">
+        select a.id, a.admin_id, a.live_id, a.type, a.avatar, a.name, a.jim_name, a.sex, a.age, a.height, a.weight, a.email, a.bank, a.phone, a.number, a.freight_id, a.province, a.province_code, a.city, a.city_code, a.area, a.area_code, a.address, a.current_address, a.content, a.code, a.open_id, a.qrcode, a.pro_code, a.up_id, a.money, a.password, a.integral, a.start_time, a.end_time, a.open_flag, a.watch_flag, a.push_url, a.bond, a.bond_flag, a.contract_flag, a.bond_file, a.promoter_name, a.promoter_phone, a.audit, a.promoter_flag, a.status, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.del_flag
+        from pro_customer a
+        where a.id = #{customerId}
+    </select>
+</mapper>
