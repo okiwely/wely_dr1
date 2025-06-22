@@ -298,7 +298,7 @@
 				graphicalExample: null,
 				//图形路径经纬度
 				graphicalPath: [],
-				apiKey: 'AIzaSyBltUdYH_KjpYkVqRScXv2l6TWhZr3fqLk',
+				apiKey: '',
 				type: 2,
 				typex: 1,
 				googleApi: '',
