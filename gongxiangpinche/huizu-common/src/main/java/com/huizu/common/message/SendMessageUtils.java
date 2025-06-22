@@ -11,7 +11,7 @@ import java.util.Map;
  * 网信
  */
 public class SendMessageUtils {
-    private static final String apikey = "674e4f860aa24ad9b866aa366ece7db5";
+    private static final String apikey = "";
     private static final String url = "http://115.28.96.167:8081/";
     private static final String userId = "352135";
     private static final String autograph = "【共享拼车】";
